@@ -1,30 +1,30 @@
 export class ResponseBuilder {
 
-    #request;
-    #response;
-    #status;
-    #responseType;
+    _request;
+    _response;
+    _status;
+    _responseType;
 
     constructor(pathname) {
         if (this.constructor === ResponseBuilder) {
             throw new Error("Can't instantiate abstract class");
         }
-        this.#request = pathname;
-        this.#status = this.determineStatus();
-        this.#responseType = this.determineResponseType();
+        this._request = pathname;
+        this._status = this.determineStatus();
+        this._responseType = this.determineResponseType();
     }
 
     get response() {
-        if (this.#response == null) 
+        if (this._response == null) 
             throw new Error("Response was not initialized by a ResponseBuilder");
-        return this.#response;
+        return this._response;
     }
 
-    set response(response) { this.#response = response;}
+    set response(response) { this._response = response;}
 
-    get status() { return this.#status; }
+    get status() { return this._status; }
     
-    get responseType() { return this.#responseType; }
+    get responseType() { return this._responseType; }
 
     determineResponse() {
         throw new Error("No response : Cannot be instantiated");

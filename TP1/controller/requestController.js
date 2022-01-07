@@ -1,6 +1,7 @@
 import { URL } from 'url';
 import { NoErrorResponseBuilder } from './responseBuilders/noErrorResponseBuilder.js';
 import { ErrorResponseBuilder } from './responseBuilders/errorResponseBuilder.js';
+import { ResponseBuilderJSON } from './responseBuilders/responseBuilderJSON.js';
 
 export default class RequestController {
 
@@ -35,7 +36,9 @@ export default class RequestController {
     const respBuilder = this.responseBody(value, color, date);
     
     this.response.statusCode = respBuilder.status;
-    this.response.write(respBuilder.response);
+
+    if (respBuilder.responseType === 'HTML')
+      this.response.write(respBuilder.response);
 
     this.response.end();
   }
@@ -50,10 +53,7 @@ export default class RequestController {
         return new NoErrorResponseBuilder(path, `<h2>P2</h2>`);
 
       case '/json':
-        return {
-          routeStr : JSON.stringify({ value: value, color: color, date: date }),
-          routeCode : 202,
-        };
+        return new ResponseBuilderJSON(path, value, color, date);
 
       default:
         return new ErrorResponseBuilder(path, `<h1>404 NOT FOUND</h1>`);
