@@ -33,7 +33,7 @@ export default class RequestController {
     const date = new Date(Date.now()).toISOString();
 
     // routage "à la main"
-    const respBuilder = this.responseBody(value, color, date);
+    const respBuilder = this.initResponseBuilder(value, color, date);
     
     this.response.statusCode = respBuilder.status;
 
@@ -43,7 +43,7 @@ export default class RequestController {
     this.response.end();
   }
 
-  responseBody(value, color, date) {
+  initResponseBuilder(value, color, date) {
     const path = this.#url.pathname;
     switch (path) {
       case '/first':
