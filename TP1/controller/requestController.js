@@ -1,4 +1,3 @@
-// fichier ./third/controller/requestController.js
 import { URL } from 'url';
 
 export default class RequestController {
@@ -28,27 +27,39 @@ export default class RequestController {
 
   prepareResponse() {
     this.response.statusCode = 200;
-    this.response.setHeader( 'Content-Type' , 'text/html');
+    this.response.setHeader('Content-Type', 'text/html');
   }
 
   buildResponse()  {
     const value = this.#url.searchParams.get('value') || 'unknown';
     const color = this.#url.searchParams.get('color') || 'unknown';
+    const date = new Date(Date.now()).toISOString();
 
     // routage "à la main"
-    if (this.#url.pathname == '/first') {
-        this.response.write(`<h2>c la page first</h2>`);
+    var routeStr;
+    var routeCode;
+    switch (this.#url.pathname) {
+      case '/first' :
+        routeStr = '<h2>P1</h2>';
+        routeCode = 202;
+        break;
+
+      case '/second' :
+        routeStr = '<p>P2</p>';
+        routeCode = 202;
+        break;
+      
+      case '/json' :
+        routeStr = JSON.stringify({value : value, color : color, date : date});
+        routeCode = 202; 
+        break;
+      
+      default :
+        routeCode = 404;
+        routeStr = '<p>NOT FOUND</p>';
     }
-    else if (this.#url.pathname == '/second')
-      this.response.write(`<p>c la page second></p>`);
-    
-    else if (this.#url.pathname == '/json')
-      console.log(JSON.stringify({color : color, value : value}));
-    
-    else {
-        this.response.statusCode = 404;
-        this.response.write(`<p>NOT FOUND</p>`);
-    }
+    this.response.write(routeStr);
+    this.response.statusCode = routeCode;
 
     this.response.end();
   }
