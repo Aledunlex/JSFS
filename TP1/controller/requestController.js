@@ -36,21 +36,9 @@ export default class RequestController {
     
     this.response.statusCode = respBuilder.status;
     this.response.write(respBuilder.response);
-    console.log(respBuilder.response);
 
     this.response.end();
   }
-
-  buildHead() {
-    this.response.write(`<html>\n\t<head></head>\n\t<body>\n\t\t`);
-  }
-  buildFooter(date) {
-    this.response.write(`\n\t\t<footer>${date}</footer>`);
-  }
-  closeHTML() {
-    this.response.write(`\n\t</body>\n</html>`);
-  }
-
 
   responseBody(value, color, date) {
     const path = this.#url.pathname;
@@ -68,7 +56,7 @@ export default class RequestController {
         };
 
       default:
-        return new ErrorResponseBuilder(path, `<p>404 NOT FOUND</p>`);
+        return new ErrorResponseBuilder(path, `<h1>404 NOT FOUND</h1>`);
     }
   }
 
