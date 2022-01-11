@@ -2,15 +2,11 @@ import { ResponseBuilder } from '../responseBuilder.js';
 
 export class ResponseBuilderJSON extends ResponseBuilder {
 
-    _value;
-    _color;
-    _date;
+    _args;
 
-    constructor(pathname, value, color, date) {
+    constructor(pathname, args) {
         super(pathname);
-        this._value = value;
-        this._color = color;
-        this._date = date;
+        this._args = args;
         this.response = this.determineResponse();
     }
 
@@ -19,7 +15,7 @@ export class ResponseBuilderJSON extends ResponseBuilder {
     }
 
     determineResponse() {
-        return JSON.stringify({ value: this._value, color: this._color, date: this._date });
+        return JSON.stringify(this._args);
     }
 
     determineStatus() {

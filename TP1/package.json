@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-
   "repository": {
     "type": "git",
     "url": "https://gitlab-etu.fil.univ-lille1.fr/vasco/jsfs.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
