@@ -47,6 +47,7 @@ export default class RequestController {
   }
 
   initResponseBuilder(path) {
+    //recuperation du premier mot de la requete; '/first/anything' renverra toujours vers '/first'
     const initPath = '/'+path.split('/')[1];
     switch (initPath) {
       case '/first':
