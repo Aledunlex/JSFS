@@ -2,8 +2,9 @@ import { GeneralResponseBuilderHTML } from './generalResponseBuilderHTML.js';
 
 export class NoErrorResponseBuilder extends GeneralResponseBuilderHTML {
 
-    determineStatus() {
-        return `200`;
+    constructor(pathname, message) {
+        super(pathname, message);
+        this.determineStatus('200');
     }
 
 }

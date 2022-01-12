@@ -1,5 +1,5 @@
 import { ResponseBuilder } from '../responseBuilder.js';
-import FileReaderSync from 'fs';
+import { readFileSync, accessSync, constants } from 'fs';
 
 export class ResponserBuilderResource extends ResponseBuilder {
 
@@ -14,20 +14,16 @@ export class ResponserBuilderResource extends ResponseBuilder {
 
     determineResponse() {
         try {
-
-            let txtFile = "./public/pouic.txt";
-            let str = FileReaderSync.readFileSync(txtFile,'utf8');
-            // FileReaderSync.accessSync( File(this._request), FileReaderSync.constants.R_OK );
-            // return FileReaderSync.readAsDataURL(this._request);
+            const path = this._request;
+            accessSync(path, constants.R_OK);
+            this.determineStatus('200');
+            return readFileSync(path , { encoding : 'UTF-8'});
         }
         catch(e) {
+            this.determineStatus('404');
             console.log(e);
-            return "";
+            return e.toString();
+            }
         }
-    }
-
-    determineStatus() {
-        return `200`;
-    }
 
 }

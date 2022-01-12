@@ -15,11 +15,15 @@ export class ResponseBuilderJSON extends ResponseBuilder {
     }
 
     determineResponse() {
-        return JSON.stringify(this._args);
-    }
-
-    determineStatus() {
-        return `200`;
+        try {
+            this.determineStatus('200');
+            return JSON.stringify(this._args);
+        }
+        catch(e) {
+            this.determineStatus('404');
+            console.log(e);
+            return e.toString();
+        }
     }
 
 }

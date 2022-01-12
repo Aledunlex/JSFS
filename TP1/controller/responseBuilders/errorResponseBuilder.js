@@ -2,8 +2,9 @@ import { GeneralResponseBuilderHTML } from './generalResponseBuilderHTML.js';
 
 export class ErrorResponseBuilder extends GeneralResponseBuilderHTML {
 
-    determineStatus() {
-        return `404`;
+    constructor(pathname, message) {
+        super(pathname, message);
+        this.determineStatus('404');
     }
 
 }

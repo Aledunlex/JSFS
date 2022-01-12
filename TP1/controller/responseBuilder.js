@@ -10,7 +10,6 @@ export class ResponseBuilder {
             throw new Error("Can't instantiate abstract class");
         }
         this._request = pathname;
-        this._status = this.determineStatus();
         this._responseType = this.determineResponseType();
     }
 
@@ -30,8 +29,8 @@ export class ResponseBuilder {
         throw new Error("No response : Cannot be instantiated");
     }
 
-    determineStatus() {
-        throw new Error("No status : Cannot be instantiated");
+    determineStatus(status) {
+        this._status = status;
     }
 
     determineResponseType() {
