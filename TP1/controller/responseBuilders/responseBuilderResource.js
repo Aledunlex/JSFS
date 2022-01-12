@@ -1,5 +1,6 @@
 import { ResponseBuilder } from '../responseBuilder.js';
 import { readFileSync, accessSync, constants } from 'fs';
+import { OK_STATUS, ERROR_STATUS, PLAIN_TYPE } from '../builderConstants.js';
 
 export class ResponserBuilderResource extends ResponseBuilder {
 
@@ -9,18 +10,18 @@ export class ResponserBuilderResource extends ResponseBuilder {
     }
 
     determineResponseType() {
-        return `text/plain`;
+        return PLAIN_TYPE;
     }
 
     determineResponse() {
         try {
             const path = this._request;
             accessSync(path, constants.R_OK);
-            this.determineStatus('200');
+            this.determineStatus(OK_STATUS);
             return readFileSync(path , { encoding : 'UTF-8'});
         }
         catch(e) {
-            this.determineStatus('404');
+            this.determineStatus(ERROR_STATUS);
             console.log(e);
             return e.toString();
             }

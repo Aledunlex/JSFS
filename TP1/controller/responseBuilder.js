@@ -13,11 +13,7 @@ export class ResponseBuilder {
         this._responseType = this.determineResponseType();
     }
 
-    get response() {
-        if (this._response == null) 
-            throw new Error("Response was not initialized by a ResponseBuilder");
-        return this._response;
-    }
+    get response() { return this._response; }
 
     set response(response) { this._response = response;}
 

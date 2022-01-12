@@ -2,7 +2,9 @@ import { URL } from 'url';
 import { NoErrorResponseBuilder } from './responseBuilders/noErrorResponseBuilder.js';
 import { ErrorResponseBuilder } from './responseBuilders/errorResponseBuilder.js';
 import { ResponseBuilderJSON } from './responseBuilders/responseBuilderJSON.js';
+import { ResponseBuilder } from './responseBuilder.js';
 import { ResponserBuilderResource } from './responseBuilders/responseBuilderResource.js';
+import { ERROR_STATUS, HTML_TYPE, P1_MESSAGE, P2_MESSAGE, ERROR_MESSAGE } from './builderConstants.js';
 
 export default class RequestController {
 
@@ -18,17 +20,7 @@ export default class RequestController {
 
   get response() { return this.#response; }
 
-  handleRequest() {
-    this.prepareResponse();
-    this.buildResponse();
-  }
-
-  prepareResponse() {
-    this.response.statusCode = 200;
-    this.response.setHeader('Content-Type', 'text/html');
-  }
-
-  buildResponse()  {  
+  handleRequest()  {  
     const path = this.#url.pathname;
 
     // routage "à la main"
@@ -37,11 +29,15 @@ export default class RequestController {
     
     this.response.statusCode = respBuilder.status;
 
-    if (this.response.statusCode === '404')
+    if (this.response.statusCode === ERROR_STATUS)
       respBuilder = this.#errorBuilder(path);
 
-    if (respBuilder.responseType === 'HTML')
+    this.response.setHeader('Content-Type', respBuilder.responseType);
+
+    if (respBuilder.responseType === HTML_TYPE)
       this.response.write(respBuilder.response);
+
+    
 
     this.response.end();
   }
@@ -51,15 +47,15 @@ export default class RequestController {
     const initPath = '/'+path.split('/')[1];
     switch (initPath) {
       case '/first':
-        return new NoErrorResponseBuilder(path, `<h2>P1</h2>`);
+        return new NoErrorResponseBuilder(path, P1_MESSAGE);
 
       case '/second':
-        return new NoErrorResponseBuilder(path, `<h2>P2</h2>`);
+        return new NoErrorResponseBuilder(path, P2_MESSAGE);
 
       case '/json':
         const value = this.#url.searchParams.get('value') || 'unknown';
         const color = this.#url.searchParams.get('color') || 'unknown';
-        const date = new Date(Date.now()).toISOString();
+        const date = ResponseBuilder.getDate();
         const args = {value: value, color: color, date: date};
         return new ResponseBuilderJSON(path, args);
 
@@ -77,7 +73,7 @@ export default class RequestController {
   }
 
   #errorBuilder(path) {
-    return new ErrorResponseBuilder(path, `<h1>404 NOT FOUND</h1>`);
+    return new ErrorResponseBuilder(path, ERROR_MESSAGE);
   }
 
 }

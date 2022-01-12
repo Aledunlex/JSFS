@@ -1,4 +1,5 @@
 import { ResponseBuilder } from '../responseBuilder.js';
+import { JSON_TYPE, OK_STATUS, ERROR_STATUS } from '../builderConstants.js';
 
 export class ResponseBuilderJSON extends ResponseBuilder {
 
@@ -11,16 +12,16 @@ export class ResponseBuilderJSON extends ResponseBuilder {
     }
 
     determineResponseType() {
-        return `JSON`;
+        return JSON_TYPE;
     }
 
     determineResponse() {
         try {
-            this.determineStatus('200');
+            this.determineStatus(OK_STATUS);
             return JSON.stringify(this._args);
         }
         catch(e) {
-            this.determineStatus('404');
+            this.determineStatus(ERROR_STATUS);
             console.log(e);
             return e.toString();
         }

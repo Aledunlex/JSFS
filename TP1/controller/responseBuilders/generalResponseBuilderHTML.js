@@ -1,4 +1,5 @@
 import { ResponseBuilder } from '../responseBuilder.js';
+import { HTML_TYPE } from '../builderConstants.js';
 
 export class GeneralResponseBuilderHTML extends ResponseBuilder {
 
@@ -14,11 +15,11 @@ export class GeneralResponseBuilderHTML extends ResponseBuilder {
     set message(message) { this._message = message; }
 
     determineResponseType() {
-        return `HTML`;
+        return HTML_TYPE;
     }
 
     determineResponse() {
-        return this.buildHead() + this._message + this.buildFooter() + this.closeHTML();
+        return this.buildHead() + this._message + this.buildFooter() + this.decorate() + this.closeHTML();
     }
 
     buildHead() {
@@ -31,6 +32,11 @@ export class GeneralResponseBuilderHTML extends ResponseBuilder {
 
     closeHTML() {
         return `\n\t</body>\n</html>`;
+    }
+
+    decorate() {
+        return `<link href="./public/style/style.css" rel="stylesheet" type="text/css"></link> 
+        \n<img src="./public/img/timoleon_oceanie.jpg" alt="timoleon bien sur">`;
     }
 
 }
