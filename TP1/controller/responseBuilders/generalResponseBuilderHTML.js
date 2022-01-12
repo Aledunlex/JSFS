@@ -37,7 +37,8 @@ export class GeneralResponseBuilderHTML extends ResponseBuilder {
 
     decorate() {
         return `<link href="./public/style/style.css" rel="stylesheet" type="text/css"></link> 
-                <img src="./public/img/timoleon_oceanie.jpg" alt="timoleon bien sur">`;
+                <img src="./public/img/timoleon_oceanie.jpg" alt="timoleon bien sur">
+                <link href="./public/style/inexistant_pour_essayer.css" rel="stylesheet" type="text/css"></link> `;
     }
 
 }
