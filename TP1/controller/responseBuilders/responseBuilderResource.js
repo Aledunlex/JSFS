@@ -2,7 +2,7 @@ import { ResponseBuilder } from '../responseBuilder.js';
 import { readFileSync, accessSync, constants } from 'fs';
 import { OK_STATUS, ERROR_STATUS, PLAIN_TYPE } from '../builderConstants.js';
 
-export class ResponserBuilderResource extends ResponseBuilder {
+export class ResponseBuilderResource extends ResponseBuilder {
 
     constructor(pathname) {
         super(pathname);
@@ -24,7 +24,7 @@ export class ResponserBuilderResource extends ResponseBuilder {
             this.determineStatus(ERROR_STATUS);
             console.log(e);
             return e.toString();
-            }
         }
+    }
 
 }

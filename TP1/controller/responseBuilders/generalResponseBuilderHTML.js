@@ -1,5 +1,6 @@
 import { ResponseBuilder } from '../responseBuilder.js';
 import { HTML_TYPE } from '../builderConstants.js';
+import { ResponseBuilderResource } from './responseBuilderResource.js';
 
 export class GeneralResponseBuilderHTML extends ResponseBuilder {
 
@@ -19,7 +20,7 @@ export class GeneralResponseBuilderHTML extends ResponseBuilder {
     }
 
     determineResponse() {
-        return this.buildHead() + this._message + this.buildFooter() + this.decorate() + this.closeHTML();
+        return this.buildHead() + this._message + this.decorate() + this.buildFooter() + this.closeHTML();
     }
 
     buildHead() {
@@ -36,7 +37,7 @@ export class GeneralResponseBuilderHTML extends ResponseBuilder {
 
     decorate() {
         return `<link href="./public/style/style.css" rel="stylesheet" type="text/css"></link> 
-        \n<img src="./public/img/timoleon_oceanie.jpg" alt="timoleon bien sur">`;
+                <img src="./public/img/timoleon_oceanie.jpg" alt="timoleon bien sur">`;
     }
 
 }

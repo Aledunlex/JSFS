@@ -3,7 +3,7 @@ import { NoErrorResponseBuilder } from './responseBuilders/noErrorResponseBuilde
 import { ErrorResponseBuilder } from './responseBuilders/errorResponseBuilder.js';
 import { ResponseBuilderJSON } from './responseBuilders/responseBuilderJSON.js';
 import { ResponseBuilder } from './responseBuilder.js';
-import { ResponserBuilderResource } from './responseBuilders/responseBuilderResource.js';
+import { ResponseBuilderResource } from './responseBuilders/responseBuilderResource.js';
 import { ERROR_STATUS, HTML_TYPE, P1_MESSAGE, P2_MESSAGE, ERROR_MESSAGE } from './builderConstants.js';
 
 export default class RequestController {
@@ -27,19 +27,18 @@ export default class RequestController {
     // respBuilder variable car réattribution si erreur
     var respBuilder = this.initResponseBuilder(path);
     
-    this.response.statusCode = respBuilder.status;
+    this.#response.statusCode = respBuilder.status;
 
-    if (this.response.statusCode === ERROR_STATUS)
+    if (this.#response.statusCode === ERROR_STATUS)
       respBuilder = this.#errorBuilder(path);
 
-    this.response.setHeader('Content-Type', respBuilder.responseType);
+    
+    this.#response.setHeader('Content-Type', respBuilder.responseType);
 
     if (respBuilder.responseType === HTML_TYPE)
-      this.response.write(respBuilder.response);
+      this.#response.write(respBuilder.response); 
 
-    
-
-    this.response.end();
+    this.#response.end();
   }
 
   initResponseBuilder(path) {
@@ -65,7 +64,7 @@ export default class RequestController {
         return new ResponseBuilderJSON(path, args2);
 
       case '/public':
-        return new ResponserBuilderResource('.'+path);
+        return new ResponseBuilderResource('.'+path);
 
       default:
         return this.#errorBuilder(path);
