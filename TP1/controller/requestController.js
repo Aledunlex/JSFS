@@ -25,7 +25,7 @@ export default class RequestController {
 
     // routage "à la main"
     // respBuilder variable car réattribution si erreur
-    var respBuilder = this.initResponseBuilder(path);
+    let respBuilder = this.initResponseBuilder(path);
     
     this.#response.statusCode = respBuilder.status;
 
