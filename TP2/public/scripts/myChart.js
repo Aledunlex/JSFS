@@ -6,12 +6,12 @@ const MAX_VALUE = 10;
 const socket = io();
 
 socket.on('number', (message) => {
-  // addData(message);
-  console.log(message);
+  addData(myChart, myChart.labels, message);
+  // console.log(message);
  });
 
 const allLabels = new Array(nbValues).fill(defaultValue).map( (_,i) => String.fromCharCode('A'.charCodeAt(0)+i));
-//const allLabels = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+// const allLabels = ['J','F','M','A','M','J','J','A','S','O','N','D'];
 
 // l'objet Chart
 let myChart;
@@ -22,7 +22,7 @@ const setup = () => {
   myChart = new Chart(ctxt, {
     type: 'bar',
     data: {
-        labels: allLabels,
+        labels: [...allLabels],
         datasets: [{
             label : `mes ${nbValues} dernières données`,
             data :  new Array(nbValues).fill(defaultValue),
@@ -44,13 +44,13 @@ const setup = () => {
 }
 
 //incorrect
-function addData(data) {
-  myChart.data.labels.push(label);
-  myChart.data.datasets.forEach((dataset) => {
-      dataset.data.push(data);
+let count = 0;
+function addData(myChart, label, data) {
+  myChart.data.datasets.push({
+    label: label,
+    data: data
   });
   myChart.update();
-  console.log("updated");
 }
 
 window.addEventListener('DOMContentLoaded', setup);
