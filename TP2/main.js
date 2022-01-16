@@ -19,14 +19,16 @@ server.listen(8080);
 /** Will send a random number, different for each socket */
 // function sendToAll() {
 // 	sockets.forEach(socket => socket.emit('number', getNewNum()));
-
-// 	function getNewNum() {
-// 		return Math.floor(Math.random() * 101);
-// 	}
 // }
 
 
 /** Will send a random number, the same for each socket */
 function sendToAll() {
-	io.emit('number', Math.floor(Math.random() * 101));
+	io.emit('number', getNewNum());
+}
+
+function getNewNum() {
+	const min = Math.ceil(2);
+	const max = Math.floor(9);
+	return Math.floor(Math.random() * (max - min)) + min;
 }
