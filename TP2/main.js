@@ -17,15 +17,19 @@ server.listen(8080);
 
 
 /** Will send a random number, different for each socket */
-// function sendToAll() {
-// 	sockets.forEach(socket => socket.emit('number', getNewNum()));
-// }
+function sendToAll() {
+	sockets.forEach(socket => {
+		const num = getNewNum()
+		socket.emit('number', num);
+		console.log(`Sent ${num} at ${socket.id}`);
+	});
+}
 
 
 /** Will send a random number, the same for each socket */
-function sendToAll() {
-	io.emit('number', getNewNum());
-}
+// function sendToAll() {
+// 	io.emit('number', getNewNum());
+// }
 
 function getNewNum() {
 	const min = Math.ceil(2);
