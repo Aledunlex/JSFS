@@ -2,31 +2,40 @@ import http from 'http';
 import RequestController from './controllers/requestController.js';
 import { Server as ServerIO } from 'socket.io';
 
+const DELAY = 2000;
+
 const server = http.createServer(
 	(request, response) => new RequestController(request, response).handleRequest()
 );
 
-const sockets = Array();
+const sockets = new Map();
 
 const io = new ServerIO(server);
-io.on('connection', socket => sockets.push(socket) );
 
-setInterval(sendToAll, 2000);
+io.on('connection', socket => {
+	const sId = socket.id;
+	sockets.set( sId, setInterval(sendTo, DELAY, socket) );
+	socket.on( 'disconnect', () => {
+		clearInterval(sockets.get(sId));
+		sockets.delete(sId);
+	});
+});
+
 
 server.listen(8080);
 
 
 /** Will send a random number, different for each socket */
-function sendToAll() {
-	sockets.forEach(socket => {
-		const num = getNewNum()
-		socket.emit('number', num);
-		console.log(`Sent ${num} at ${socket.id}`);
-	});
+function sendTo(socket) {
+	const num = getNewNum();
+	socket.emit('number', num);
+	console.log(`Sent ${num} at ${socket.id}`);
 }
 
-
 /** Will send a random number, the same for each socket */
+/** For this to work, sendTo(socket) used to be sendToAll(), and
+ * setInterval used to be called only once, on the whole set of sockets.
+ */
 // function sendToAll() {
 // 	io.emit('number', getNewNum());
 // }
