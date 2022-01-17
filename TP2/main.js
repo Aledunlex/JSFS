@@ -32,10 +32,9 @@ function sendTo(socket) {
 	console.log(`Sent ${num} at ${socket.id}`);
 }
 
-/** Will send a random number, the same for each socket */
-/** For this to work, sendTo(socket) used to be sendToAll(), and
- * setInterval used to be called only once, on the whole set of sockets.
- */
+/** Will send a random number, the same for each socket. Requires to downgrade 
+ * interval management made in the io.on 'connection' event management for Q6 */
+// setInterval(sendToAll, 2000);
 // function sendToAll() {
 // 	io.emit('number', getNewNum());
 // }
