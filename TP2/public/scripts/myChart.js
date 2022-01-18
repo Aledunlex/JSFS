@@ -5,10 +5,7 @@ const MAX_VALUE = 10;
 
 const socket = io();
 
-socket.on('number', (message) => 
-  addData(message)
-  // console.log(message);
-         );
+socket.on('number', (message) => addData(message) );
 
 const allLabels = new Array(nbValues).fill(defaultValue).map( (_,i) => String.fromCharCode('A'.charCodeAt(0)+i));
 // const allLabels = ['J','F','M','A','M','J','J','A','S','O','N','D'];

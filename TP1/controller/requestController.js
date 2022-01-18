@@ -35,7 +35,7 @@ export default class RequestController {
     
     this.#response.setHeader('Content-Type', respBuilder.responseType);
 
-    if (respBuilder.responseType === HTML_TYPE)
+    //if (respBuilder.responseType === HTML_TYPE)
       this.#response.write(respBuilder.response); 
 
     this.#response.end();
@@ -52,10 +52,8 @@ export default class RequestController {
         return new NoErrorResponseBuilder(path, P2_MESSAGE);
 
       case '/json':
-        const value = this.#url.searchParams.get('value') || 'unknown';
-        const color = this.#url.searchParams.get('color') || 'unknown';
-        const date = ResponseBuilder.getDate();
-        const args = {value: value, color: color, date: date};
+        const data = this.#url.searchParams.entries();
+        const args = Object.fromEntries(data);
         return new ResponseBuilderJSON(path, args);
 
       case '/random':

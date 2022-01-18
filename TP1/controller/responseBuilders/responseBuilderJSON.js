@@ -8,6 +8,8 @@ export class ResponseBuilderJSON extends ResponseBuilder {
     constructor(pathname, args) {
         super(pathname);
         this._args = args;
+        
+        
         this.response = this.determineResponse();
     }
 
@@ -18,6 +20,9 @@ export class ResponseBuilderJSON extends ResponseBuilder {
     determineResponse() {
         try {
             this.determineStatus(OK_STATUS);
+
+            console.log(this._args);
+            
             return JSON.stringify(this._args);
         }
         catch(e) {
