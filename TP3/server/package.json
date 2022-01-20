@@ -2,11 +2,16 @@
   "name": "pong",
   "version": "1.0.0",
   "description": "le célèbre jeu Pong",
-  "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "build" : "webpack"
   },
   "author": "YOU",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1"
+  }
 }
