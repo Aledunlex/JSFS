@@ -10,12 +10,12 @@ const PRODUCTION = true;
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'scripts', 'pong.js'),
 
+  mode :  (PRODUCTION ? 'production' : 'development'),
   output: {
-    path: path.resolve(__dirname, (PRODUCTION ? '../server/public/' : 'dist')),
+    path: (PRODUCTION ? path.resolve(__dirname, '../server/public') : path.resolve(__dirname, 'dist')),
     filename: 'scripts/bundle.js'
   },
 
-  mode :  (PRODUCTION ? 'production' : 'development'),
   devtool : (PRODUCTION ? undefined : 'eval-source-map'),
 
   devServer: {

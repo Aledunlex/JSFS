@@ -14,8 +14,9 @@ export default class Game {
   constructor(canvas) {
     this.raf = null;
     this.canvas = canvas;
+    this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
-    this.paddle = new Paddle(20, this.canvas.height/2, this)
+    this.paddle = new Paddle(20, this.canvas.height/2)
   }
 
   /** start this game animation */
@@ -34,13 +35,14 @@ export default class Game {
   }
   /** move then draw the bouncing ball */
   moveAndDraw() {
-    const ctxt = this.canvas.getContext("2d");
-    ctxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // draw the paddle
+    this.paddle.draw(this.context);
     // draw and move the ball
     this.ball.move();
-    this.ball.draw(ctxt);
-    this.paddle.draw(ctxt);
-    this.paddle.move();
+    this.ball.draw(this.context);
+    // move the paddle
+    this.paddle.move(this.canvas);
   }
 
   keyDownActionHandler(event) {
@@ -62,16 +64,21 @@ export default class Game {
     switch (event.key) {
       case "ArrowUp":
       case "Up":
-        if (!this.paddle.moveDown()) {this.paddle.stopMoving();}
+        if (!this.paddle.getDown()) {
+          this.paddle.stopMoving();
+        }
         break;
       case "ArrowDown":
       case "Down":
-        if (!this.paddle.moveUp()) {this.paddle.stopMoving();}
+        if (!this.paddle.getUp()) {
+          this.paddle.stopMoving();
+        }
         break;
      default: return;
    }
    event.preventDefault();
   }
+
 
 
 }

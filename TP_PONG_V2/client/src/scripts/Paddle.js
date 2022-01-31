@@ -1,33 +1,45 @@
 import Mobile from './Mobile';
+import MoveState from './MoveState';
 
 import paddleImg from '../images/paddle.png';
 
 export default class Paddle extends Mobile {
 
-  /**  build a paddle
-   *
-   * @param  {number} x       the x coordinate
-   * @param  {number} y       the y coordinate
-   * @param  {Game} theGame   the Game this paddle belongs to
-   */
-  constructor(x, y, theGame) {
-    super(x, y, paddleImg, 0, 2);
-    this.theGame = theGame;
+  constructor(x, y, src = paddleImg, shiftX = 0, shiftY = 8) {
+    super(x, y, src, shiftX, shiftY);
+    this.moving = MoveState.NONE;
   }
+
+  getUp() {
+    return this.moving === MoveState.UP;
+  }
+
+  getDown() {
+    return this.moving === MoveState.DOWN;
+  }
+
 
   moveUp() {
     this.shiftY = -Math.abs(this.shiftY);
+    this.moving = MoveState.UP;
   }
 
   moveDown() {
     this.shiftY = Math.abs(this.shiftY);
+    this.moving = MoveState.DOWN;
   }
 
-  move() {
-    if (this.y <= 0 || (this.y+this.height >= this.theGame.canvas.height)) {
+  stopMoving() {
+    this.moving = MoveState.NONE;
+  }
+
+  move(canvas) {
+    if (this.getUp()) {
       this.y = Math.max(0, this.y + this.shiftY);
     }
-    super.move();
+    if (this.getDown()) {
+      this.y = Math.min(canvas.height - this.img.height, this.y + this.shiftY);
+    }
   }
 
 }
