@@ -38,6 +38,9 @@ export default class Game {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // draw the paddle
     this.paddle.draw(this.context);
+    if(this.ball.collisionWith(this.paddle)) {
+      this.ball.shiftX = - this.ball.shiftX;
+    }
     // draw and move the ball
     this.ball.move();
     this.ball.draw(this.context);
@@ -65,13 +68,13 @@ export default class Game {
       case "ArrowUp":
       case "Up":
         if (!this.paddle.getDown()) {
-          this.paddle.stopMoving();
+          this.paddle.stopMovingPaddle();
         }
         break;
       case "ArrowDown":
       case "Down":
         if (!this.paddle.getUp()) {
-          this.paddle.stopMoving();
+          this.paddle.stopMovingPaddle();
         }
         break;
      default: return;

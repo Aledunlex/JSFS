@@ -37,11 +37,11 @@ export default class Mobile {
   * @param {CanvasRenderingContext2D} ctxt - the drawing context
   */
   draw(context) {
-    context.drawImage(this.img,this.x,this.y);
+    context.drawImage(this.img, this.x, this.y);
   }
-  /** this mobile stops moving : speed becomes 0
+  /** this mobile stops moving : speed becomes 0*/
   stopMoving() {
     this.shiftX = 0;
     this.shiftY = 0;
-  }*/
+  }
 }

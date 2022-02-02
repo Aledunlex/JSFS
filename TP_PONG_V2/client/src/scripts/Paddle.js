@@ -18,7 +18,6 @@ export default class Paddle extends Mobile {
     return this.moving === MoveState.DOWN;
   }
 
-
   moveUp() {
     this.shiftY = -Math.abs(this.shiftY);
     this.moving = MoveState.UP;
@@ -29,7 +28,7 @@ export default class Paddle extends Mobile {
     this.moving = MoveState.DOWN;
   }
 
-  stopMoving() {
+  stopMovingPaddle() {
     this.moving = MoveState.NONE;
   }
 
