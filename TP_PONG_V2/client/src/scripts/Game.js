@@ -44,6 +44,8 @@ export default class Game {
     this.ball.draw(this.context);
     // move the paddle
     this.paddle.move(this.canvas);
+    
+    if(this.ball.x === 0) {this.ball.stopMoving();}
   }
 
   keyDownActionHandler(event) {
