@@ -1,10 +1,13 @@
 import Ball from './Ball.js';
 import Paddle from './Paddle.js'
 
+const DISTANCE_FROM_BORDER = 20;
+
 /**
  * a Game animates a ball bouncing in a canvas
  */
 export default class Game {
+
 
   /**
    * build a Game
@@ -16,7 +19,7 @@ export default class Game {
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
-    this.paddle = new Paddle(20, this.canvas.height/2 - 44);
+    this.paddle1 = new Paddle(DISTANCE_FROM_BORDER, this.canvas.height/2 - Paddle.PADDLEHEIGHT, this);
   }
 
   /** start this game animation */
@@ -37,26 +40,25 @@ export default class Game {
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // draw the paddle
-    this.paddle.draw(this.context);
-    this.ball.collisionWith(this.paddle);
+    this.paddle1.draw(this.context);
     // draw and move the ball
-    this.ball.move();
     this.ball.draw(this.context);
+    this.ball.move();
+
+    this.ball.checkForCollisionWith(this.paddle1);
     // move the paddle
-    this.paddle.move(this.canvas);
-    
-    if(this.ball.x === 0) {this.ball.stopMoving();}
+    this.paddle1.move();
   }
 
   keyDownActionHandler(event) {
     switch (event.key) {
       case "ArrowUp":
       case "Up":
-        this.paddle.moveUp();
+        this.paddle1.moveUp();
         break;
       case "ArrowDown":
       case "Down":
-        this.paddle.moveDown();
+        this.paddle1.moveDown();
         break;
      default: return;
    }
@@ -67,14 +69,14 @@ export default class Game {
     switch (event.key) {
       case "ArrowUp":
       case "Up":
-        if (!this.paddle.getDown()) {
-          this.paddle.stopMoving();
+        if (!this.paddle1.getDown()) {
+          this.paddle1.stopMoving();
         }
         break;
       case "ArrowDown":
       case "Down":
-        if (!this.paddle.getUp()) {
-          this.paddle.stopMoving();
+        if (!this.paddle1.getUp()) {
+          this.paddle1.stopMoving();
         }
         break;
      default: return;

@@ -36,13 +36,13 @@ export default class Ball extends Mobile {
     if (this.y + this.verticalSpeed <= 0 || this.y + this.height >= this.theGame.canvas.height) {
       this.verticalSpeed = - this.verticalSpeed;    // rebond en haut ou en bas
     }
-    if (this.x + this.horizontalSpeed <= 0 || this.x + this.width >= this.theGame.canvas.width) {
+    if (this.x + this.width >= this.theGame.canvas.width) {
       this.horizontalSpeed = - this.horizontalSpeed;    // rebond en gauche ou à droite
     }
     super.move();
   }
 
-  collisionWith(paddle) {
+  checkForCollisionWith(paddle) {
     let b2x = paddle.x + paddle.width;
     let b2y = paddle.y + paddle.height;
 

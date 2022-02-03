@@ -1,13 +1,17 @@
 import Mobile from './Mobile';
 import MoveState from './MoveState';
 
-import paddleImg from '../images/paddle.png';
+const paddleImg = '../images/paddle.png';
+const SHIFT_Y = 7;
 
 export default class Paddle extends Mobile {
 
-  constructor(x, y, src = paddleImg, horizontalSpeed = 0, verticalSpeed = 8) {
-    super(x, y, src, horizontalSpeed, verticalSpeed);
+  static PADDLEHEIGHT = 44;
+
+  constructor(x, y, theGame) {
+    super(x, y, paddleImg, 0, 0);
     this.moving = MoveState.NONE;
+    this.theGame = theGame;
   }
 
 
@@ -19,26 +23,31 @@ export default class Paddle extends Mobile {
     return this.moving === MoveState.DOWN;
   }
 
+  getStop() {
+    return this.moving === MoveState.NONE;
+  }
+
   moveUp() {
-    this.verticalSpeed = -Math.abs(this.verticalSpeed);
     this.moving = MoveState.UP;
   }
 
   moveDown() {
-    this.verticalSpeed = Math.abs(this.verticalSpeed);
     this.moving = MoveState.DOWN;
   }
 
   stopMoving() {
     this.moving = MoveState.NONE;
+    super.stopMoving();
   }
 
-  move(canvas) {
+  move() {
     if (this.getUp()) {
+      this.verticalSpeed = -SHIFT_Y;
       this.y = Math.max(0, this.y + this.verticalSpeed);
     }
-    if (this.getDown()) {
-      this.y = Math.min(canvas.height - this.img.height, this.y + this.verticalSpeed);
+    else if (this.getDown()) {
+      this.verticalSpeed = SHIFT_Y;
+      this.y = Math.min(this.theGame.canvas.height - this.img.height, this.y + this.verticalSpeed);
     }
     super.updateCenter();
   }

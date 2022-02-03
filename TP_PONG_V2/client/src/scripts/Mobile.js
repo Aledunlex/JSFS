@@ -29,7 +29,7 @@ export default class Mobile {
     return this.img.height;
   }
   /** this mobile moves : horizontal and vertical shifts are added to coordinates */
-  move(canvas) {
+  move() {
     this.x += this.horizontalSpeed;
     this.y += this.verticalSpeed;
     this.updateCenter();
