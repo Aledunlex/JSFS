@@ -16,7 +16,7 @@ export default class Game {
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
-    this.paddle = new Paddle(20, this.canvas.height/2)
+    this.paddle = new Paddle(20, this.canvas.height/2 - 44);
   }
 
   /** start this game animation */

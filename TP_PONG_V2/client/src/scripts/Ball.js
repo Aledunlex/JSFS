@@ -29,10 +29,10 @@ export default class Ball extends Mobile {
    * when moving a ball bounces inside the limit of its game's canvas
    */
   move() {
-    if (this.y <= 0 || (this.y + this.height >= this.theGame.canvas.height)) {
+    if (this.y + this.verticalSpeed <= 0 || (this.y + this.height >= this.theGame.canvas.height)) {
       this.verticalSpeed = - this.verticalSpeed;    // rebond en haut ou en bas
     }
-    else if (this.x <= 0 || this.x + this.width >= this.theGame.canvas.width ) {
+    if (this.x + this.horizontalSpeed <= 0 || this.x + this.width >= this.theGame.canvas.width ) {
       this.horizontalSpeed = - this.horizontalSpeed;    // rebond en gauche ou à droite
     }
     super.move();

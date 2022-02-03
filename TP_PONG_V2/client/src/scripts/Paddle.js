@@ -10,6 +10,12 @@ export default class Paddle extends Mobile {
     this.moving = MoveState.NONE;
   }
 
+  updateCenter() {
+    this.top = this.y;
+    this.bottom = this.y + this.height;
+    this.center = (this.top +this.bottom)/2;
+  }
+
   getUp() {
     return this.moving === MoveState.UP;
   }
@@ -33,6 +39,8 @@ export default class Paddle extends Mobile {
   }
 
   move(canvas) {
+    this.updateCenter();
+    console.log(this.center, );
     if (this.getUp()) {
       this.y = Math.max(0, this.y + this.verticalSpeed);
     }
