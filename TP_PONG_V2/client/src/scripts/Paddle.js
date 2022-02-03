@@ -5,8 +5,8 @@ import paddleImg from '../images/paddle.png';
 
 export default class Paddle extends Mobile {
 
-  constructor(x, y, src = paddleImg, shiftX = 0, shiftY = 8) {
-    super(x, y, src, shiftX, shiftY);
+  constructor(x, y, src = paddleImg, horizontalSpeed = 0, verticalSpeed = 8) {
+    super(x, y, src, horizontalSpeed, verticalSpeed);
     this.moving = MoveState.NONE;
   }
 
@@ -19,25 +19,25 @@ export default class Paddle extends Mobile {
   }
 
   moveUp() {
-    this.shiftY = -Math.abs(this.shiftY);
+    this.verticalSpeed = -Math.abs(this.verticalSpeed);
     this.moving = MoveState.UP;
   }
 
   moveDown() {
-    this.shiftY = Math.abs(this.shiftY);
+    this.verticalSpeed = Math.abs(this.verticalSpeed);
     this.moving = MoveState.DOWN;
   }
 
-  stopMovingPaddle() {
+  stopMoving() {
     this.moving = MoveState.NONE;
   }
 
   move(canvas) {
     if (this.getUp()) {
-      this.y = Math.max(0, this.y + this.shiftY);
+      this.y = Math.max(0, this.y + this.verticalSpeed);
     }
     if (this.getDown()) {
-      this.y = Math.min(canvas.height - this.img.height, this.y + this.shiftY);
+      this.y = Math.min(canvas.height - this.img.height, this.y + this.verticalSpeed);
     }
   }
 

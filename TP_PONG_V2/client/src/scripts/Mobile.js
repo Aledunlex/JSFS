@@ -3,21 +3,21 @@
 */
 export default class Mobile {
   /**
-   * buils a Mobile
+   * builds a Mobile
    *
-   * @param  {number} x          the x coordinate of this mobile
-   * @param  {number} y          the y coordinate of this mobile
-   * @param  {string} imgSrc     this mobile's image src
-   * @param  {number} shiftX = 0 the horizontal shift "speed"
-   * @param  {number} shiftY = 0 the vertical shift "speed"
+   * @param  {number} x               the x coordinate of this mobile
+   * @param  {number} y               the y coordinate of this mobile
+   * @param  {string} imgSrc          this mobile's image src
+   * @param  {number} horizontalSpeed = 0 the horizontal shift "speed"
+   * @param  {number} verticalSpeed   = 0 the vertical shift "speed"
    */
-  constructor(x, y, imgSrc, shiftX = 0, shiftY = 0) {
+  constructor(x, y, imgSrc, horizontalSpeed = 0, verticalSpeed = 0) {
     this.y = y;
     this.x = x;
 	  this.img = new Image();
     this.img.src = imgSrc;
-    this.shiftX = shiftX;
-    this.shiftY = shiftY;
+    this.horizontalSpeed = horizontalSpeed;
+    this.verticalSpeed = verticalSpeed;
   }
 
   /** @return {number} the width of the mobile, ie. its images's width */
@@ -30,8 +30,8 @@ export default class Mobile {
   }
   /** this mobile moves : horizontal and vertical shifts are added to coordinates */
   move(canvas) {
-    this.x += this.shiftX;
-    this.y += this.shiftY;
+    this.x += this.horizontalSpeed;
+    this.y += this.verticalSpeed;
   }
   /** draw this mobile's image at its coordinates in the given context
   * @param {CanvasRenderingContext2D} ctxt - the drawing context
@@ -41,7 +41,7 @@ export default class Mobile {
   }
   /** this mobile stops moving : speed becomes 0*/
   stopMoving() {
-    this.shiftX = 0;
-    this.shiftY = 0;
+    this.horizontalSpeed = 0;
+    this.verticalSpeed = 0;
   }
 }

@@ -30,10 +30,10 @@ export default class Ball extends Mobile {
    */
   move() {
     if (this.y <= 0 || (this.y + this.height >= this.theGame.canvas.height)) {
-      this.shiftY = - this.shiftY;    // rebond en haut ou en bas
+      this.verticalSpeed = - this.verticalSpeed;    // rebond en haut ou en bas
     }
     else if (this.x <= 0 || this.x + this.width >= this.theGame.canvas.width ) {
-      this.shiftX = - this.shiftX;    // rebond en gauche ou à droite
+      this.horizontalSpeed = - this.horizontalSpeed;    // rebond en gauche ou à droite
     }
     super.move();
   }
