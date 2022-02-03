@@ -59,11 +59,27 @@ export default class Ball extends Mobile {
   }
 
   handleCollision(paddle) {
-    const difference = this.center - paddle.center;
-    const currentSpeed = Math.abs(this.horizontalSpeed) + Math.abs(this.verticalSpeed);
-    this.horizontalSpeed = - this.horizontalSpeed;
+
+    // ça fait des trucs mais c'est pas jojo
+
+    const difference = Math.abs(this.center - paddle.center);
+    // this.horizontalSpeed = - this.horizontalSpeed;
     console.log(difference);
-    
+    if (difference < 10) {
+      console.log("centre proche");
+      this.horizontalSpeed = - (this.horizontalSpeed - 1);
+      this.verticalSpeed = - (this.verticalSpeed - 1);
+    }
+    else if (difference < 30) {
+      console.log("centre ... moyen?");
+      this.horizontalSpeed = - (this.horizontalSpeed - 2);
+      this.verticalSpeed = - (this.verticalSpeed - 2);
+    }
+    else {
+      console.log("centre éloigné");
+      this.horizontalSpeed = - (this.horizontalSpeed - 3);
+      this.verticalSpeed = - (this.verticalSpeed - 3);
+    }
 
   }
 
