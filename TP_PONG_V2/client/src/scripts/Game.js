@@ -38,9 +38,7 @@ export default class Game {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // draw the paddle
     this.paddle.draw(this.context);
-    if(this.ball.collisionWith(this.paddle)) {
-      this.ball.horizontalSpeed = - this.ball.horizontalSpeed;
-    }
+    this.ball.collisionWith(this.paddle);
     // draw and move the ball
     this.ball.move();
     this.ball.draw(this.context);

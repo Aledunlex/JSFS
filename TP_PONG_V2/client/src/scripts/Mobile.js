@@ -32,6 +32,7 @@ export default class Mobile {
   move(canvas) {
     this.x += this.horizontalSpeed;
     this.y += this.verticalSpeed;
+    this.updateCenter();
   }
   /** draw this mobile's image at its coordinates in the given context
   * @param {CanvasRenderingContext2D} ctxt - the drawing context
@@ -43,5 +44,11 @@ export default class Mobile {
   stopMoving() {
     this.horizontalSpeed = 0;
     this.verticalSpeed = 0;
+  }
+
+  updateCenter() {
+    this.top = this.y;
+    this.bottom = this.y + this.height;
+    this.center = (this.top +this.bottom)/2;
   }
 }

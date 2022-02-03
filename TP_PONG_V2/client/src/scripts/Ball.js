@@ -22,6 +22,7 @@ export default class Ball extends Mobile {
   constructor(x, y, theGame) {
     super(x, y, BALL_IMAGE_SRC , SHIFT_X, SHIFT_Y);
     this.theGame = theGame;
+    console.log(this.height);
   }
 
 
@@ -48,7 +49,19 @@ export default class Ball extends Mobile {
     let p2x = Math.min(this.x + paddle.width, b2x);
     let p2y = Math.min(this.y + paddle.height, b2y);
 
-    return ((p1x < p2x) && (p1y < p2y));
+    let collision = (p1x < p2x) && (p1y < p2y);
+    if (collision)
+      this.handleCollision(paddle);
+    return collision;
+  }
+
+  handleCollision(paddle) {
+    const difference = this.center - paddle.center;
+    const currentSpeed = Math.abs(this.horizontalSpeed) + Math.abs(this.verticalSpeed);
+    this.horizontalSpeed = - this.horizontalSpeed;
+    console.log(difference);
+    
+
   }
 
 }
