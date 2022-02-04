@@ -5,7 +5,9 @@ import Paddle from './Paddle.js';
 // default values for a Ball : image and shifts
 const BALL_IMAGE_SRC = './images/balle24.png';
 const SHIFT_X = 8;
-const SHIFT_Y = 4;
+const SHIFT_Y = 0;
+const MAX_SPEED = 10;
+const MIN_SPEED = 4;
 
 
 /**
@@ -24,6 +26,16 @@ export default class Ball extends Mobile {
     this.theGame = theGame;
   }
 
+
+  change_horizontalSpeed(newSpeed) {
+    if (Math.abs(newSpeed) >= MIN_SPEED && Math.abs(newSpeed) <= MAX_SPEED)
+      this.horizontalSpeed = newSpeed;
+  }
+  
+  change_verticalSpeed(newSpeed) {
+    if (Math.abs(newSpeed) >= MIN_SPEED && Math.abs(newSpeed) <= MAX_SPEED)
+      this.verticalSpeed = newSpeed;
+  }
 
   /**
    * when moving a ball bounces inside the limit of its game's canvas
@@ -67,18 +79,17 @@ export default class Ball extends Mobile {
     console.log(difference);
     if (difference < 10) {
       console.log("centre proche");
-      this.horizontalSpeed = - (this.horizontalSpeed + 1);
-      this.verticalSpeed = - (this.verticalSpeed - 1);
+      this.change_horizontalSpeed(- this.horizontalSpeed);
     }
     else if (difference < 30) {
       console.log("centre ... moyen?");
-      this.horizontalSpeed = - (this.horizontalSpeed + 2);
-      this.verticalSpeed = - (this.verticalSpeed - 2);
+      this.change_horizontalSpeed(- (this.horizontalSpeed - 2));
+      this.change_verticalSpeed(- (this.verticalSpeed + 2));
     }
     else {
       console.log("centre éloigné");
-      this.horizontalSpeed = - (this.horizontalSpeed + 3);
-      this.verticalSpeed = - (this.verticalSpeed - 3);
+      this.change_horizontalSpeed(- (this.horizontalSpeed + 2));
+      this.change_verticalSpeed(- (this.verticalSpeed - 2));
     }
 
   }

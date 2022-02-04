@@ -35,11 +35,6 @@ export default class Paddle extends Mobile {
     this.moving = MoveState.DOWN;
   }
 
-  stopMoving() {
-    this.moving = MoveState.NONE;
-    super.stopMoving();
-  }
-
   move() {
     if (this.getUp()) {
       this.verticalSpeed = -SHIFT_Y;

@@ -1,3 +1,5 @@
+import MoveState from './MoveState';
+
 /**
   A mobile is defined by its coordinates, an image and a "speed" defined by horizontal and vertical shift values
 */
@@ -42,8 +44,10 @@ export default class Mobile {
   }
   /** this mobile stops moving : speed becomes 0*/
   stopMoving() {
+    console.log("coucou")
     this.horizontalSpeed = 0;
     this.verticalSpeed = 0;
+    this.moving = MoveState.NONE;
   }
 
   updateCenter() {

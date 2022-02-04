@@ -1,7 +1,8 @@
 import Ball from './Ball.js';
 import Paddle from './Paddle.js'
+import MoveState from './MoveState';
 
-const DISTANCE_FROM_BORDER = 20;
+const DISTANCE_FROM_BORDER = 30;
 
 /**
  * a Game animates a ball bouncing in a canvas
@@ -48,6 +49,18 @@ export default class Game {
     this.ball.checkForCollisionWith(this.paddle1);
     // move the paddle
     this.paddle1.move();
+
+    if(this.ball.moving === MoveState.NONE) {
+      const winningPaddle = this.determineWinner();
+      //attribuer un point au gagnant...
+      //attendre que le joueur appuie sur espace...
+      this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
+    }
+  }
+
+  determineWinner() {
+    //return this.ball.x === 0 ? this.paddle2 : this.paddle1;
+    return this.paddle1; //pour le moment, car paddle2 pas défini
   }
 
   keyDownActionHandler(event) {
