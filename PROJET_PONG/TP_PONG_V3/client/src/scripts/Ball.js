@@ -17,6 +17,7 @@ const MIN_SPEED = 3;
 export default class Ball extends Mobile {
 
   static BALLHEIGHT = 22;
+  static DEFAULT_SPEED = SHIFT_X;
 
   /**  build a ball
    *
@@ -45,7 +46,7 @@ export default class Ball extends Mobile {
    * when moving a ball bounces inside the limit of its game's canvas
    */
   move() {
-    if (this.x < 0 || this.x + this.width >= this.theGame.canvas.width) {
+    if (this.x <= 0 || this.x + this.width >= this.theGame.canvas.width) {
       super.stopMoving();
     }
     if (this.y + this.verticalSpeed <= 0 || this.y + this.height >= this.theGame.canvas.height) {
@@ -74,17 +75,7 @@ export default class Ball extends Mobile {
   handleCollision(paddle) {
     const difference = Math.floor((this.center - paddle.center)/10);
 
-    // const moveAway = (paddle.x === Game.DISTANCE_FROM_BORDER) ? paddle.x + paddle.width + 1 : this.x - 1;
-    let moveAway;
-    if (paddle.x === Game.DISTANCE_FROM_BORDER) {
-      console.log("pong");
-      moveAway = paddle.x + paddle.width + 1;
-    }
-    else {
-      console.log("ping");
-      moveAway = this.x - 1;
-    }
-    this.x = moveAway;
+    this.x = (paddle.x === Game.DISTANCE_FROM_BORDER) ? paddle.x + paddle.width + 1 : this.x - 1;
 
     this.adjust_verticalSpeed(difference);
   }

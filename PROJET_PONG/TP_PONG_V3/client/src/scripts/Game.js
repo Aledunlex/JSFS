@@ -3,6 +3,7 @@ import Paddle from './Paddle.js'
 import MoveState from './MoveState';
 
 const DISTANCE_FROM_BORDER = 30;
+const RANDOM_START = Math.floor(Math.random() * 2);
 
 /**
  * a Game animates a ball bouncing in a canvas
@@ -19,27 +20,34 @@ export default class Game {
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, (this.canvas.height - Ball.BALLHEIGHT)/2, this);
+    this.randomDirectionFirstRound();
     this.paddleG = new Paddle(
       DISTANCE_FROM_BORDER,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
     this.paddleD = new Paddle(
-      this.canvas.width - DISTANCE_FROM_BORDER * 2,
+      this.canvas.width - DISTANCE_FROM_BORDER - Paddle.PADDLEWIDTH,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
     this.state = this.onGoing();
   }
 
+  randomDirectionFirstRound() {
+    this.ball.horizontalSpeed *= Math.floor(Math.random() * 2) ? 1 : -1;
+  }
+
   static get DISTANCE_FROM_BORDER() {return DISTANCE_FROM_BORDER;}
 
   /** start this game animation */
   start() {
+    document.getElementById('start').value = 'Stop';
     this.animate();
   }
   /** stop this game animation */
   stop() {
+    document.getElementById('start').value = 'Jouer';
     window.cancelAnimationFrame(this.raf);
   }
 
@@ -53,8 +61,10 @@ export default class Game {
 
   handleEndOfRound() {
     if (!this.onGoing()) {
-      const winningPaddle = this.determineWinner();
-      //attribuer un point au gagnant?
+      this.determineWinner();
+      document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
+      
+      this.stop();
     }
   }
 
@@ -80,14 +90,32 @@ export default class Game {
   }
 
   determineWinner() {
-    return this.ball.x == 0 ? this.paddleD : this.paddleG;
+    this.lastWinner = this.ball.x <= 0 ? this.paddleD : this.paddleG;
+    ++this.lastWinner.score;
+  }
+
+  reinitializeGame() {
+    this.ball = new Ball(this.canvas.width / 2, (this.canvas.height - Ball.BALLHEIGHT) / 2, this);
+
+    if (this.lastWinner == this.paddleG) {
+      this.ball.horizontalSpeed = Ball.DEFAULT_SPEED;
+      this.ball.x -= this.canvas.width / 4;
+    }
+    else {
+      this.ball.horizontalSpeed = -Ball.DEFAULT_SPEED;
+      this.ball.x += this.canvas.width / 4;
+    }
+
+    const paddles = [this.paddleG, this.paddleD];
+    paddles.forEach(paddle => paddle.y = (this.canvas.height - Paddle.PADDLEHEIGHT) / 2);
+    this.start();
   }
 
   keyDownActionHandler(event) {
     switch (event.key) {
       case " ":
         if (!this.onGoing()) {
-          this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
+          this.reinitializeGame();
         }
         break;
       case "ArrowUp":

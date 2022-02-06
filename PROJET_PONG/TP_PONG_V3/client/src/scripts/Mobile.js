@@ -4,6 +4,9 @@ import MoveState from './MoveState';
   A mobile is defined by its coordinates, an image and a "speed" defined by horizontal and vertical shift values
 */
 export default class Mobile {
+
+  // static img = new Image();
+
   /**
    * builds a Mobile
    *

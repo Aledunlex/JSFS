@@ -7,13 +7,18 @@ const SHIFT_Y = 7;
 export default class Paddle extends Mobile {
 
   static PADDLEHEIGHT = 84;
+  static PADDLEWIDTH = 24;
 
+  /**
+   * A Paddle is a mobile representing a player in a Game.
+   * Therefore, it also keeps track of the relevant score value.
+   */
   constructor(x, y, theGame) {
     super(x, y, paddleImg, 0, 0);
     this.moving = MoveState.NONE;
     this.theGame = theGame;
+    this.score = 0;
   }
-
 
   getUp() {
     return this.moving === MoveState.UP;
