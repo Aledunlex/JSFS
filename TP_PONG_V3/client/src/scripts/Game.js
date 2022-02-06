@@ -9,7 +9,6 @@ const DISTANCE_FROM_BORDER = 30;
  */
 export default class Game {
 
-
   /**
    * build a Game
    *
@@ -20,7 +19,16 @@ export default class Game {
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, (this.canvas.height - Ball.BALLHEIGHT)/2, this);
-    this.paddle1 = new Paddle(DISTANCE_FROM_BORDER, (this.canvas.height - Paddle.PADDLEHEIGHT)/2, this);
+    this.paddleG = new Paddle(
+      DISTANCE_FROM_BORDER,
+      (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
+      this
+    );
+    this.paddleD = new Paddle(
+      this.canvas.width - DISTANCE_FROM_BORDER * 2,
+      (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
+      this
+    );
     this.state = this.onGoing();
   }
 
@@ -57,20 +65,22 @@ export default class Game {
   /** move then draw the bouncing ball */
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    const paddles = [this.paddleG, this.paddleD];
     // draw the paddle
-    this.paddle1.draw(this.context);
+    paddles.forEach(paddle => paddle.draw(this.context));
+
     // draw and move the ball
     this.ball.draw(this.context);
-    this.ball.move();
+    this.ball.move();    
+    paddles.forEach(paddle => this.ball.checkForCollisionWith(paddle));
 
-    this.ball.checkForCollisionWith(this.paddle1);
-    // move the paddle
-    this.paddle1.move();
+    // move the paddles
+    paddles.forEach(paddle => paddle.move());
   }
 
   determineWinner() {
-    //return this.ball.x == 0 ? this.paddle2 : this.paddle1;
-    return this.paddle1; //pour le moment, car paddle2 pas défini
+    return this.ball.x == 0 ? this.paddleD : this.paddleG;
   }
 
   keyDownActionHandler(event) {
@@ -81,12 +91,16 @@ export default class Game {
         }
         break;
       case "ArrowUp":
-      case "Up":
-        this.paddle1.moveUp();
+        this.paddleD.moveUp();
         break;
       case "ArrowDown":
-      case "Down":
-        this.paddle1.moveDown();
+        this.paddleD.moveDown();
+        break;
+      case "z":
+        this.paddleG.moveUp();
+        break;
+      case "s":
+        this.paddleG.moveDown();
         break;
      default: return;
    }
@@ -96,17 +110,25 @@ export default class Game {
   keyUpActionHandler(event) {
     switch (event.key) {
       case "ArrowUp":
-      case "Up":
-        if (!this.paddle1.getDown()) {
-          this.paddle1.stopMoving();
+        if (!this.paddleD.getDown()) {
+          this.paddleD.stopMoving();
         }
         break;
       case "ArrowDown":
-      case "Down":
-        if (!this.paddle1.getUp()) {
-          this.paddle1.stopMoving();
+        if (!this.paddleD.getUp()) {
+          this.paddleD.stopMoving();
         }
         break;
+      case "z":
+        if (!this.paddleG.getDown()) {
+          this.paddleG.stopMoving();
+        }
+        break;
+      case "s":
+        if (!this.paddleG.getUp()) {
+          this.paddleG.stopMoving();
+        }
+        break;  
      default: return;
    }
    event.preventDefault();
