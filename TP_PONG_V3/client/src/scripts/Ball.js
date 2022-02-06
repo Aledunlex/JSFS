@@ -58,11 +58,11 @@ export default class Ball extends Mobile {
     let b2x = paddle.x + paddle.width;
     let b2y = paddle.y + paddle.height;
 
-    let p1x = Math.max(this.x, paddle.x + 2*(paddle.width/3));
-    let p1y = Math.max(this.y, paddle.y + 2*(paddle.height/3));
+    let p1x = Math.max(this.x, paddle.x);
+    let p1y = Math.max(this.y, paddle.y);
 
-    let p2x = Math.min(this.x + paddle.width, b2x);
-    let p2y = Math.min(this.y + paddle.height, b2y);
+    let p2x = Math.min(this.x + this.width, b2x);
+    let p2y = Math.min(this.y + this.height, b2y);
 
     let collision = (p1x < p2x) && (p1y < p2y);
 
@@ -74,7 +74,7 @@ export default class Ball extends Mobile {
   handleCollision(paddle) {
     const difference = Math.floor((this.center - paddle.center)/10);
 
-    // const moveAway = (paddle.x === Game.DISTANCE_FROM_BORDER) ? paddle.x + paddle.width + 1 : this.x - this.width - 1;
+    // const moveAway = (paddle.x === Game.DISTANCE_FROM_BORDER) ? paddle.x + paddle.width + 1 : this.x - 1;
     let moveAway;
     if (paddle.x === Game.DISTANCE_FROM_BORDER) {
       console.log("pong");
@@ -82,7 +82,7 @@ export default class Ball extends Mobile {
     }
     else {
       console.log("ping");
-      moveAway = this.x - this.width - 1;
+      moveAway = this.x - 1;
     }
     this.x = moveAway;
 
