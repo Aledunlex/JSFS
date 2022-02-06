@@ -19,9 +19,12 @@ export default class Game {
     this.raf = null;
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
-    this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
-    this.paddle1 = new Paddle(DISTANCE_FROM_BORDER, this.canvas.height/2 - Paddle.PADDLEHEIGHT, this);
+    this.ball = new Ball(this.canvas.width/2, (this.canvas.height - Ball.BALLHEIGHT)/2, this);
+    this.paddle1 = new Paddle(DISTANCE_FROM_BORDER, (this.canvas.height - Paddle.PADDLEHEIGHT)/2, this);
+    this.state = this.onGoing();
   }
+
+  static get DISTANCE_FROM_BORDER() {return DISTANCE_FROM_BORDER;}
 
   /** start this game animation */
   start() {
@@ -36,7 +39,21 @@ export default class Game {
   animate() {
     this.moveAndDraw();
     this.raf = window.requestAnimationFrame(this.animate.bind(this));
+
+    this.handleEndOfRound();
   }
+
+  handleEndOfRound() {
+    if (!this.onGoing()) {
+      const winningPaddle = this.determineWinner();
+      //attribuer un point au gagnant?
+    }
+  }
+
+  onGoing() {
+    return !this.ball.getStop();
+  }
+
   /** move then draw the bouncing ball */
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -49,22 +66,20 @@ export default class Game {
     this.ball.checkForCollisionWith(this.paddle1);
     // move the paddle
     this.paddle1.move();
-
-    if(this.ball.moving === MoveState.NONE) {
-      const winningPaddle = this.determineWinner();
-      //attribuer un point au gagnant...
-      //attendre que le joueur appuie sur espace...
-      this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
-    }
   }
 
   determineWinner() {
-    //return this.ball.x === 0 ? this.paddle2 : this.paddle1;
+    //return this.ball.x == 0 ? this.paddle2 : this.paddle1;
     return this.paddle1; //pour le moment, car paddle2 pas défini
   }
 
   keyDownActionHandler(event) {
     switch (event.key) {
+      case " ":
+        if (!this.onGoing()) {
+          this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, this);
+        }
+        break;
       case "ArrowUp":
       case "Up":
         this.paddle1.moveUp();
@@ -96,7 +111,5 @@ export default class Game {
    }
    event.preventDefault();
   }
-
-
 
 }

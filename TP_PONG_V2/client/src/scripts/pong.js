@@ -21,10 +21,10 @@ let started = false;
 const startGame = theGame => {
   if (!started) {
     theGame.start();
-    document.getElementById('start').value = 'stop';
+    document.getElementById('start').value = 'Stop';
   }
   else {
-    document.getElementById('start').value = 'jouer';
+    document.getElementById('start').value = 'Jouer';
     theGame.stop();
   }
   started = ! started;

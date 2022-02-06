@@ -6,7 +6,7 @@ const SHIFT_Y = 7;
 
 export default class Paddle extends Mobile {
 
-  static PADDLEHEIGHT = 44;
+  static PADDLEHEIGHT = 84;
 
   constructor(x, y, theGame) {
     super(x, y, paddleImg, 0, 0);
@@ -21,10 +21,6 @@ export default class Paddle extends Mobile {
 
   getDown() {
     return this.moving === MoveState.DOWN;
-  }
-
-  getStop() {
-    return this.moving === MoveState.NONE;
   }
 
   moveUp() {
@@ -42,7 +38,7 @@ export default class Paddle extends Mobile {
     }
     else if (this.getDown()) {
       this.verticalSpeed = SHIFT_Y;
-      this.y = Math.min(this.theGame.canvas.height - this.img.height, this.y + this.verticalSpeed);
+      this.y = Math.min(this.theGame.canvas.height - this.height, this.y + this.verticalSpeed);
     }
     super.updateCenter();
   }

@@ -44,15 +44,16 @@ export default class Mobile {
   }
   /** this mobile stops moving : speed becomes 0*/
   stopMoving() {
-    console.log("coucou")
     this.horizontalSpeed = 0;
     this.verticalSpeed = 0;
     this.moving = MoveState.NONE;
   }
 
+  getStop() {
+    return this.moving === MoveState.NONE;
+  }
+
   updateCenter() {
-    this.top = this.y;
-    this.bottom = this.y + this.height;
-    this.center = (this.top +this.bottom)/2;
+    this.center = (this.y*2 + this.height)/2;
   }
 }

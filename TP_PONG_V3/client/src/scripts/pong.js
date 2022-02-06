@@ -7,10 +7,8 @@ const init = () => {
   const theGame = new Game(theField);
 
   document.getElementById('start').addEventListener("click", () => startGame(theGame) );
-  window.addEventListener('keydown', theGame.keyDownActionHandlerG.bind(theGame));
-  window.addEventListener('keyup', theGame.keyUpActionHandlerG.bind(theGame));
-  window.addEventListener('keydown', theGame.keyDownActionHandlerD.bind(theGame));
-  window.addEventListener("keyup", theGame.keyUpActionHandlerD.bind(theGame));
+  window.addEventListener('keydown', theGame.keyDownActionHandler.bind(theGame));
+  window.addEventListener('keyup', theGame.keyUpActionHandler.bind(theGame));
 }
 
 window.addEventListener("load",init);
@@ -23,10 +21,10 @@ let started = false;
 const startGame = theGame => {
   if (!started) {
     theGame.start();
-    document.getElementById('start').value = 'stop';
+    document.getElementById('start').value = 'Stop';
   }
   else {
-    document.getElementById('start').value = 'jouer';
+    document.getElementById('start').value = 'Jouer';
     theGame.stop();
   }
   started = ! started;
