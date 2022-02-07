@@ -2,13 +2,13 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js'
 import MoveState from './MoveState';
 
-const DISTANCE_FROM_BORDER = 30;
-const RANDOM_START = Math.floor(Math.random() * 2);
 
 /**
  * a Game animates a ball bouncing in a canvas
  */
 export default class Game {
+
+  static DISTANCE_FROM_BORDER = 30;
 
   /**
    * build a Game
@@ -22,12 +22,12 @@ export default class Game {
     this.ball = new Ball(this.canvas.width/2, (this.canvas.height - Ball.BALLHEIGHT)/2, this);
     this.randomDirectionFirstRound();
     this.paddleG = new Paddle(
-      DISTANCE_FROM_BORDER,
+      Game.DISTANCE_FROM_BORDER,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
     this.paddleD = new Paddle(
-      this.canvas.width - DISTANCE_FROM_BORDER - Paddle.PADDLEWIDTH,
+      this.canvas.width - Game.DISTANCE_FROM_BORDER - Paddle.PADDLEWIDTH,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
@@ -38,8 +38,6 @@ export default class Game {
     this.ball.horizontalSpeed *= Math.floor(Math.random() * 2) ? 1 : -1;
   }
 
-  static get DISTANCE_FROM_BORDER() {return DISTANCE_FROM_BORDER;}
-
   /** start this game animation */
   start() {
     document.getElementById('start').value = 'Stop';
@@ -47,7 +45,7 @@ export default class Game {
   }
   /** stop this game animation */
   stop() {
-    document.getElementById('start').value = 'Jouer';
+    document.getElementById('start').value = this.onGoing() ? 'Jouer' : 'Appuyez sur Espace';
     window.cancelAnimationFrame(this.raf);
   }
 
@@ -59,20 +57,7 @@ export default class Game {
     this.handleEndOfRound();
   }
 
-  handleEndOfRound() {
-    if (!this.onGoing()) {
-      this.determineWinner();
-      document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
-      
-      this.stop();
-    }
-  }
-
-  onGoing() {
-    return !this.ball.getStop();
-  }
-
-  /** move then draw the bouncing ball */
+  /** move then draw the bouncing ball and paddles */
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -89,11 +74,33 @@ export default class Game {
     paddles.forEach(paddle => paddle.move());
   }
 
+  /* If the ball stopped moving, determines a winner, disabled the play/stop button, and stop the animation */
+  handleEndOfRound() {
+    if (!this.onGoing()) {
+      this.determineWinner();
+      this.handleDocumentEndOfRound();
+      this.stop();
+    }
+  }
+
+  /* Returns whether the ball is moving or not */
+  onGoing() {
+    return !this.ball.getStop();
+  }
+  
+  /* Updates this.lastWinner value and adds one point to the corresponding paddle. Called once at the end of a round */
   determineWinner() {
     this.lastWinner = this.ball.x <= 0 ? this.paddleD : this.paddleG;
     ++this.lastWinner.score;
   }
 
+  /* Called at the end of round to prevent player from clicking the play/stop button until they pressed the spacebar */
+  handleDocumentEndOfRound() {
+    document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
+    document.getElementById("start").disabled = true;
+  }
+
+  /* Called when round is over and player pressed the spacebar */
   reinitializeGame() {
     this.ball = new Ball(this.canvas.width / 2, (this.canvas.height - Ball.BALLHEIGHT) / 2, this);
 
@@ -109,6 +116,7 @@ export default class Game {
     const paddles = [this.paddleG, this.paddleD];
     paddles.forEach(paddle => paddle.y = (this.canvas.height - Paddle.PADDLEHEIGHT) / 2);
     this.start();
+    document.getElementById("start").disabled = false;
   }
 
   keyDownActionHandler(event) {
