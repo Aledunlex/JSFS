@@ -22,7 +22,7 @@ let started = false;
  * @param {Game} theGame - the game to start and stop
  */
 const startGame = theGame => {
-  if (!started) {
+  if (!started && theGame.onGoing()) {
     theGame.start();
   }
   else {
