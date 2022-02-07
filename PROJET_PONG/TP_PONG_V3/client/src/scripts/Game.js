@@ -3,6 +3,7 @@ import Paddle from './Paddle.js'
 import MoveState from './MoveState';
 
 const DISTANCE_FROM_BORDER = 30;
+const RANDOM_START = Math.floor(Math.random() * 2);
 
 /**
  * a Game animates a ball bouncing in a canvas
@@ -55,14 +56,14 @@ export default class Game {
     this.moveAndDraw();
     this.raf = window.requestAnimationFrame(this.animate.bind(this));
 
-    this.checkForEndOfRound();
+    this.handleEndOfRound();
   }
 
-  checkForEndOfRound() {
-    const updateScores = () => document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
+  handleEndOfRound() {
     if (!this.onGoing()) {
       this.determineWinner();
-      updateScores();
+      document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
+      
       this.stop();
     }
   }
@@ -71,7 +72,7 @@ export default class Game {
     return !this.ball.getStop();
   }
 
-  /** move then draw the bouncing ball and the paddles */
+  /** move then draw the bouncing ball */
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
