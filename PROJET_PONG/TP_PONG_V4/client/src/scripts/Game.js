@@ -74,7 +74,7 @@ export default class Game {
     paddles.forEach(paddle => paddle.move());
   }
 
-  /* If the ball stopped moving, determines a winner, disabled the play/stop button, and stop the animation */
+  /* If the ball stopped moving, determines a winner, disables the play/stop button, and stops the animation */
   handleEndOfRound() {
     if (!this.onGoing()) {
       this.determineWinner();
