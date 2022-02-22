@@ -12,6 +12,10 @@ export default class Paddle extends Mobile {
   /**
    * A Paddle is a mobile representing a player in a Game.
    * Therefore, it also keeps track of the relevant score value.
+   * 
+   * @param  {number} x       the x coordinate
+   * @param  {number} y       the y coordinate
+   * @param  {Game} theGame   the Game this paddle belongs to
    */
   constructor(x, y, theGame) {
     super(x, y, PADDLE_IMAGE_SRC, 0, 0);
