@@ -2,6 +2,7 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js'
 import MoveState from './MoveState';
 
+const socket = io();
 
 /**
  * a Game animates a ball bouncing in a canvas
@@ -67,7 +68,7 @@ export default class Game {
 
     // draw and move the ball
     this.ball.draw(this.context);
-    this.ball.move();    
+    this.ball.move();
     paddles.forEach(paddle => this.ball.checkForCollisionWith(paddle));
 
     // move the paddles
@@ -87,7 +88,7 @@ export default class Game {
   onGoing() {
     return !this.ball.getStop();
   }
-  
+
   /* Updates this.lastWinner value and adds one point to the corresponding paddle. Called once at the end of a round */
   determineWinner() {
     this.lastWinner = this.ball.x <= 0 ? this.paddleD : this.paddleG;
@@ -164,7 +165,7 @@ export default class Game {
         if (!this.paddleG.getUp()) {
           this.paddleG.stopMoving();
         }
-        break;  
+        break;
      default: return;
    }
    event.preventDefault();
