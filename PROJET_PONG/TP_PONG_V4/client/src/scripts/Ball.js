@@ -1,6 +1,5 @@
 import Game from './Game.js';
 import Mobile from './Mobile.js';
-//import Paddle from './Paddle.js';
 
 
 // default values for a Ball : image and shifts

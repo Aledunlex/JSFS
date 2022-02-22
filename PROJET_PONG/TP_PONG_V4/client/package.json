@@ -6,8 +6,7 @@
   "main": "./src/scripts/pong.js",
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch",
-    "dev-server": "webpack serve"
+    "watch": "webpack --watch"
   },
   "license": "ISC",
   "devDependencies": {
