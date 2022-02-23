@@ -17,8 +17,12 @@ io.on('connection', socket => {
 	if (nb < 3) {
 		players.set(nb, socket.id);
 		socket.on( 'disconnect', () => {
-			players.delete(nb);
-			console.log(`Disconnected player #${nb} at ${socket.id}`);
+			if (players.size > 0) {
+				io.send(`One player disconnected. End of game. Disconnecting remaining player.`);
+				//if (io.fetchSockets.length > 0) console.log(io.fetchSockets.length, "DISCONNECTED EVERY PLAYER DUE TO ONE PLAYER LEAVING");
+				io.disconnectSockets();
+				players.clear();
+			}
 		});
 	}
 	else {

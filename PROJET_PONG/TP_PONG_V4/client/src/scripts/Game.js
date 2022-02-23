@@ -2,7 +2,6 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js'
 import MoveState from './MoveState';
 
-const socket = io();
 
 /**
  * a Game animates a ball bouncing in a canvas
@@ -11,12 +10,15 @@ export default class Game {
 
   static DISTANCE_FROM_BORDER = 30;
 
+
   /**
    * build a Game
    *
    * @param  {Canvas} canvas the canvas of the game
    */
   constructor(canvas) {
+    this.socket = io();
+    this.handleSocket();
     this.raf = null;
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
@@ -46,7 +48,7 @@ export default class Game {
   }
   /** stop this game animation */
   stop() {
-    document.getElementById('start').value = this.onGoing() ? 'Jouer' : 'Appuyez sur Espace';
+    document.getElementById('start').value = this.socket.disabled? "Déconnecté" : this.onGoing() ? 'Jouer' : 'Appuyez sur Espace';
     window.cancelAnimationFrame(this.raf);
   }
 
@@ -170,5 +172,25 @@ export default class Game {
    }
    event.preventDefault();
   }
+
+  handleSocket() {
+    const socket = this.socket;
+    socket.on('number', (message) => this.sendMessage(message) );
+
+  }
+
+  sendMessage(message) {
+    if (message < 3) {
+      console.log(`Welcome, player ${message}`);
+    }
+    else {
+      console.log("Connexion refused : too many players are already connected.")
+    }
+    if (this.socket.disabled) {
+      this.stop();
+    }
+  }
+
+  
 
 }
