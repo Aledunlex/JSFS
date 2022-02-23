@@ -43,7 +43,7 @@ export default class Game {
 
   /** start this game animation */
   start() {
-    document.getElementById('start').value = 'Stop';
+    document.getElementById('start').value = 'Disconnect';
     this.animate();
   }
   /** stop this game animation */
@@ -180,6 +180,7 @@ export default class Game {
   }
 
   sendMessage(message) {
+    this.pNumber = message;
     if (message < 3) {
       console.log(`Welcome, player ${message}`);
     }
