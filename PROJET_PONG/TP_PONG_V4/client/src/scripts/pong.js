@@ -28,6 +28,17 @@ const startGame = theGame => {
     theGame.start();
     theGame.socket.on('number', (message) => {
       document.getElementById('player').textContent = message < 3 ? `Bienvenue, joueur ${message}`:"Connexion refusée.";
+      switch(message) {
+        case 1 :
+          document.getElementById("player").style.color = "blue";
+          break;
+        case 2 :
+          document.getElementById("player").style.color = "green";
+          break;
+        case 3 :
+          document.getElementById("player").style.color = "red";
+          break;
+      }
     });
   }
   else {
