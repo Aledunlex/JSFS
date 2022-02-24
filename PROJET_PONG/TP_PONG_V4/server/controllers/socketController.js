@@ -43,6 +43,9 @@ export default class SocketController {
       if (nb == 1) {
         socket.on( 'ball moved', (...mess) => this.handleBallMovement(socket, ...mess) );
       }
+      else {
+        this.#io.emit( 'ready to start' );
+      }
     }
 
     // If two players are already connected

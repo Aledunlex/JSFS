@@ -51,11 +51,10 @@ export default class Game {
 
   /** start this game animation */
   start() {
-    this.socket = io();
-    this.handleSocket();
     document.getElementById('start').value = 'Disconnect';
     this.animate();
   }
+
   /** stop this game animation */
   stop() {
     const startBtn = document.getElementById('start');
@@ -76,11 +75,13 @@ export default class Game {
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // draw the paddle
+    // draw the paddles
     this.paddles.forEach(paddle => paddle.draw(this.context));
 
-    // draw and move the ball
+    // draw the ball
     this.ball.draw(this.context);
+
+    // move the ball
     this.ball.move();
     this.paddles.forEach(paddle => this.ball.checkForCollisionWith(paddle));
     if(this.pNumber==1) this.declareBallMovement(this.ball);
@@ -186,10 +187,11 @@ export default class Game {
   }
 
   handleSocket() {
-    const socket = this.socket;
-    socket.on('number', (message) => this.welcomingMessage(message) );
-    socket.on('other moved', (...message) => this.handleMobileMovement(this.otherPlayer, ...message));
-    socket.on('move ball', (...message) => this.handleMobileMovement(this.ball, ...message) );
+    this.socket = io();
+    this.socket.on('number', (message) => this.welcomingMessage(message) );
+    this.socket.on('ready to start', () => this.start() );
+    this.socket.on('other moved', (...message) => this.handleMobileMovement(this.otherPlayer, ...message));
+    this.socket.on('move ball', (...message) => this.handleMobileMovement(this.ball, ...message) );
   }
 
   welcomingMessage(message) {

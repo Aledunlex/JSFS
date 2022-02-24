@@ -25,7 +25,7 @@ let started = false;
  */
 const startGame = theGame => {
   if (!started) {
-    theGame.start();
+    theGame.handleSocket();
     theGame.socket.on('number', (message) => {
       document.getElementById('player').textContent = message < 3 ? `Bienvenue, joueur ${message}`:"Connexion refusée.";
       switch(message) {
