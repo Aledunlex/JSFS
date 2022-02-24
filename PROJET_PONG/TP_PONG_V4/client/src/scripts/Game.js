@@ -23,17 +23,25 @@ export default class Game {
     this.context = this.canvas.getContext("2d");
     this.ball = new Ball(this.canvas.width/2, (this.canvas.height - Ball.BALLHEIGHT)/2, this);
     this.randomDirectionFirstRound();
-    this.paddleG = new Paddle(
+    this.paddles = this.initPaddles();
+    this.player = null;
+    this.state = this.onGoing();
+  }
+
+  initPaddles() {
+    const paddleG = new Paddle(
       Game.DISTANCE_FROM_BORDER,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
-    this.paddleD = new Paddle(
+
+    const paddleD = new Paddle(
       this.canvas.width - Game.DISTANCE_FROM_BORDER - Paddle.PADDLEWIDTH,
       (this.canvas.height - Paddle.PADDLEHEIGHT) / 2,
       this
     );
-    this.state = this.onGoing();
+
+    return [paddleG, paddleD];
   }
 
   randomDirectionFirstRound() {
@@ -65,7 +73,7 @@ export default class Game {
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const paddles = [this.paddleG, this.paddleD];
+    const paddles = [this.paddles[0], this.paddles[1]];
     // draw the paddle
     paddles.forEach(paddle => paddle.draw(this.context));
 
@@ -94,13 +102,13 @@ export default class Game {
 
   /* Updates this.lastWinner value and adds one point to the corresponding paddle. Called once at the end of a round */
   determineWinner() {
-    this.lastWinner = this.ball.x <= 0 ? this.paddleD : this.paddleG;
+    this.lastWinner = this.ball.x <= 0 ? this.paddles[1] : this.paddles[0];
     ++this.lastWinner.score;
   }
 
   /* Called at the end of round to prevent player from clicking the play/stop button until they pressed the spacebar */
   handleDocumentEndOfRound() {
-    document.getElementById("score").textContent = `${this.paddleG.score} - ${this.paddleD.score}`;
+    document.getElementById("score").textContent = `${this.paddles[0].score} - ${this.paddles[1].score}`;
     document.getElementById("start").disabled = true;
   }
 
@@ -108,7 +116,7 @@ export default class Game {
   reinitializeGame() {
     this.ball = new Ball(this.canvas.width / 2, (this.canvas.height - Ball.BALLHEIGHT) / 2, this);
 
-    if (this.lastWinner == this.paddleG) {
+    if (this.lastWinner == this.paddles[0]) {
       this.ball.horizontalSpeed = Ball.DEFAULT_SPEED;
       this.ball.x -= this.canvas.width / 4;
     }
@@ -117,12 +125,12 @@ export default class Game {
       this.ball.x += this.canvas.width / 4;
     }
 
-    const paddles = [this.paddleG, this.paddleD];
-    paddles.forEach(paddle => paddle.y = (this.canvas.height - Paddle.PADDLEHEIGHT) / 2);
+    this.paddles.forEach(paddle => paddle.y = (this.canvas.height - Paddle.PADDLEHEIGHT) / 2);
     this.start();
     document.getElementById("start").disabled = false;
   }
 
+  // ne pas bouger avant d'avoir connecté un player
   keyDownActionHandler(event) {
     switch (event.key) {
       case " ":
@@ -131,16 +139,12 @@ export default class Game {
         }
         break;
       case "ArrowUp":
-        this.paddleD.moveUp();
+        this.declareMovement(this.player);
+        this.player.moveUp();
         break;
       case "ArrowDown":
-        this.paddleD.moveDown();
-        break;
-      case "z":
-        this.paddleG.moveUp();
-        break;
-      case "s":
-        this.paddleG.moveDown();
+        this.declareMovement(this.player);
+        this.player.moveDown();
         break;
      default: return;
    }
@@ -150,23 +154,13 @@ export default class Game {
   keyUpActionHandler(event) {
     switch (event.key) {
       case "ArrowUp":
-        if (!this.paddleD.getDown()) {
-          this.paddleD.stopMoving();
+        if (!this.player.getDown()) {
+          this.player.stopMoving();
         }
         break;
       case "ArrowDown":
-        if (!this.paddleD.getUp()) {
-          this.paddleD.stopMoving();
-        }
-        break;
-      case "z":
-        if (!this.paddleG.getDown()) {
-          this.paddleG.stopMoving();
-        }
-        break;
-      case "s":
-        if (!this.paddleG.getUp()) {
-          this.paddleG.stopMoving();
+        if (!this.player.getUp()) {
+          this.player.stopMoving();
         }
         break;
      default: return;
@@ -176,12 +170,16 @@ export default class Game {
 
   handleSocket() {
     const socket = this.socket;
-    socket.on('number', (message) => this.sendMessage(message) );
+    socket.on('number', (message) => this.welcomingMessage(message) );
+    socket.on('other moved', (socketid, ...message) => this.declareOtherMovement(socketid, ...message));
   }
 
-  sendMessage(message) {
+  welcomingMessage(message) {
     this.pNumber = message;
     if (message < 3) {
+      this.player = this.paddles[this.pNumber - 1];
+      console.log(this.player);
+
       console.log(`Welcome, player ${message}`);
       // afficher sur la page le numéro de joueur plutôt que dans la console
     }
@@ -193,6 +191,17 @@ export default class Game {
     }
   }
 
+  declareMovement(mobile) {
+    this.socket.emit('movement', mobile.x, mobile.y);
+  }
+
+  // plutot qu'un affichage, bouger l'autre paddle si on entre dans le if
+  declareOtherMovement(socketid, ...message) {
+    if (socketid != this.socket.id)
+      console.log(socketid, ...message)
+  }
+
+  
   
 
 }
