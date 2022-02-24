@@ -25,6 +25,7 @@ export default class Game {
     this.randomDirectionFirstRound();
     this.paddles = this.initPaddles();
     this.player = null;
+    this.otherPlayer = null;
     this.state = this.onGoing();
   }
 
@@ -57,7 +58,9 @@ export default class Game {
   }
   /** stop this game animation */
   stop() {
-    document.getElementById('start').value = this.socket.disabled? "Déconnecté" : this.onGoing() ? 'Jouer' : 'Appuyez sur Espace';
+    const startBtn = document.getElementById('start');
+    startBtn.value = this.socket.disabled ? "Déconnecté" : this.onGoing() ? 'Jouer' : 'Appuyez sur Espace';
+    startBtn.disabled = true;
     window.cancelAnimationFrame(this.raf);
   }
 
@@ -73,17 +76,18 @@ export default class Game {
   moveAndDraw() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const paddles = [this.paddles[0], this.paddles[1]];
     // draw the paddle
-    paddles.forEach(paddle => paddle.draw(this.context));
+    this.paddles.forEach(paddle => paddle.draw(this.context));
 
     // draw and move the ball
     this.ball.draw(this.context);
     this.ball.move();
-    paddles.forEach(paddle => this.ball.checkForCollisionWith(paddle));
+    this.paddles.forEach(paddle => this.ball.checkForCollisionWith(paddle));
+    if(this.pNumber==1) this.declareBallMovement(this.ball);
 
     // move the paddles
-    paddles.forEach(paddle => paddle.move());
+    this.paddles.forEach(paddle => paddle.move());
+    if (this.player != null) this.declarePaddleMovement(this.player);
   }
 
   /* If the ball stopped moving, determines a winner, disables the play/stop button, and stops the animation */
@@ -95,7 +99,9 @@ export default class Game {
     }
   }
 
-  /* Returns whether the ball is moving or not */
+  /* Returns whether the ball is moving or not 
+  * Will also return true if the game was never started so far (so at startup)
+  */
   onGoing() {
     return !this.ball.getStop();
   }
@@ -126,82 +132,101 @@ export default class Game {
     }
 
     this.paddles.forEach(paddle => paddle.y = (this.canvas.height - Paddle.PADDLEHEIGHT) / 2);
-    this.start();
-    document.getElementById("start").disabled = false;
+    
+    const startBtn = document.getElementById('start');
+    startBtn.value = 'Disconnect';
+    startBtn.disabled = false;
+    this.animate();
   }
 
   // ne pas bouger avant d'avoir connecté un player
   keyDownActionHandler(event) {
-    switch (event.key) {
-      case " ":
-        if (!this.onGoing()) {
-          this.reinitializeGame();
-        }
-        break;
-      case "ArrowUp":
-        this.declareMovement(this.player);
-        this.player.moveUp();
-        break;
-      case "ArrowDown":
-        this.declareMovement(this.player);
-        this.player.moveDown();
-        break;
-     default: return;
-   }
-   event.preventDefault();
+    try {
+      switch (event.key) {
+        case " ":
+          if (!this.onGoing()) {
+            this.reinitializeGame();
+          }
+          break;
+        case "ArrowUp":
+          this.player.moveUp();
+          break;
+        case "ArrowDown":
+          this.player.moveDown();
+          break;
+        default: return;
+      }
+      event.preventDefault();
+    }
+    catch {
+      console.log("Can't move if game hasn't started");
+    }
   }
 
   keyUpActionHandler(event) {
-    switch (event.key) {
-      case "ArrowUp":
-        if (!this.player.getDown()) {
-          this.player.stopMoving();
-        }
-        break;
-      case "ArrowDown":
-        if (!this.player.getUp()) {
-          this.player.stopMoving();
-        }
-        break;
-     default: return;
-   }
-   event.preventDefault();
+    try {
+      switch (event.key) {
+        case "ArrowUp":
+          if (!this.player.getDown()) {
+            this.player.stopMoving();
+          }
+          break;
+        case "ArrowDown":
+          if (!this.player.getUp()) {
+            this.player.stopMoving();
+          }
+          break;
+        default: return;
+      }
+      event.preventDefault();
+    }
+    catch {
+      console.log("Can't move if game hasn't started");
+    }
   }
 
   handleSocket() {
     const socket = this.socket;
     socket.on('number', (message) => this.welcomingMessage(message) );
-    socket.on('other moved', (socketid, ...message) => this.declareOtherMovement(socketid, ...message));
+    socket.on('other moved', (...message) => this.handleMobileMovement(this.otherPlayer, ...message));
+    socket.on('move ball', (...message) => this.handleMobileMovement(this.ball, ...message) );
   }
 
   welcomingMessage(message) {
     this.pNumber = message;
     if (message < 3) {
       this.player = this.paddles[this.pNumber - 1];
-      console.log(this.player);
-
+      this.otherPlayer = this.paddles[this.pNumber == 1 ? 1 : 0];
       console.log(`Welcome, player ${message}`);
       // afficher sur la page le numéro de joueur plutôt que dans la console
     }
     else {
       console.log("Connexion refused : too many players are already connected.")
+      this.stop();
     }
     if (this.socket.disabled) {
       this.stop();
     }
   }
 
-  declareMovement(mobile) {
-    this.socket.emit('movement', mobile.x, mobile.y);
+  declarePaddleMovement(paddle) {
+    this.socket.emit('my paddle moved', paddle.x, paddle.y);
   }
 
-  // plutot qu'un affichage, bouger l'autre paddle si on entre dans le if
-  declareOtherMovement(socketid, ...message) {
-    if (socketid != this.socket.id)
-      console.log(socketid, ...message)
+  declareBallMovement(ball) {
+    this.socket.emit('ball moved', ball.x, ball.y);
   }
 
-  
-  
+  /**
+   * 
+   * @param {*} mobile either the other client's paddle, or the ball
+   * @param  {...any} message the mobile's x and y coordinates to updated
+   */
+  handleMobileMovement(mobile, ...message) {
+    const x = message[0];
+    const y = message[1];
+    mobile.x = x;
+    mobile.y = y;
+  }
 
 }
