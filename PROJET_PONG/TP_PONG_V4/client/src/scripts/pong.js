@@ -10,6 +10,7 @@ const init = () => {
     startGame(theGame);
     document.getElementById("start").blur();
   });
+
   window.addEventListener('keydown', theGame.keyDownActionHandler.bind(theGame));
   window.addEventListener('keyup', theGame.keyUpActionHandler.bind(theGame));
 }
@@ -25,6 +26,9 @@ let started = false;
 const startGame = theGame => {
   if (!started) {
     theGame.start();
+    theGame.socket.on('number', (message) => {
+      document.getElementById('player').textContent = message < 3 ? `Bienvenue, joueur ${message}`:"Connexion refusée.";
+    });
   }
   else {
     theGame.socket.disconnect(true);

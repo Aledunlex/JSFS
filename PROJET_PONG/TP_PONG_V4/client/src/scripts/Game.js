@@ -17,8 +17,7 @@ export default class Game {
    * @param  {Canvas} canvas the canvas of the game
    */
   constructor(canvas) {
-    this.socket = io();
-    this.handleSocket();
+    this.socket = null;
     this.raf = null;
     this.canvas = canvas;
     this.context = this.canvas.getContext("2d");
@@ -43,6 +42,8 @@ export default class Game {
 
   /** start this game animation */
   start() {
+    this.socket = io();
+    this.handleSocket();
     document.getElementById('start').value = 'Disconnect';
     this.animate();
   }
@@ -176,13 +177,13 @@ export default class Game {
   handleSocket() {
     const socket = this.socket;
     socket.on('number', (message) => this.sendMessage(message) );
-
   }
 
   sendMessage(message) {
     this.pNumber = message;
     if (message < 3) {
       console.log(`Welcome, player ${message}`);
+      // afficher sur la page le numéro de joueur plutôt que dans la console
     }
     else {
       console.log("Connexion refused : too many players are already connected.")

@@ -13,22 +13,20 @@ let players = new Map();
 io.on('connection', socket => {
 	const sId = socket.id;
 	const nb = players.size + 1;
-	console.log(`Connected player #${nb} at ${socket.id}`);
+	console.log(`Connected player #${nb} at ${sId}`);
 	socket.emit('number', nb);
-	console.log(`Sent ${nb} at ${socket.id}`);
+	console.log(`Sent ${nb} at ${sId}`);
 	if (nb < 3) {
-		players.set(nb, socket.id);
-		socket.on( 'disconnect', () => {
-			if (players.size > 0) {
-				io.send(`One player disconnected. End of game. Disconnecting remaining player.`);
-				//if (io.fetchSockets.length > 0) console.log(io.fetchSockets.length, "DISCONNECTED EVERY PLAYER DUE TO ONE PLAYER LEAVING");
-				io.disconnectSockets();
-				players.clear();
-			}
+		players.set(nb, sId);
+		socket.on('disconnect', () => {
+			console.log(`Disconnecting ${sId} : one player disconnected. End of game.`);
+			io.send(`One player disconnected. End of game. Disconnecting remaining player.`);
+			io.disconnectSockets();
+			players.clear();
 		});
 	}
 	else {
-		console.log(`Disconnecting ${socket.id} : too many players already connected`);
+		console.log(`Disconnecting ${sId} : too many players already connected`);
 		socket.disconnect(true);
 	}
 });
