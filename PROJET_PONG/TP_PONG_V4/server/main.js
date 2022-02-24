@@ -14,6 +14,8 @@ io.on('connection', socket => {
 	const sId = socket.id;
 	const nb = players.size + 1;
 	console.log(`Connected player #${nb} at ${socket.id}`);
+	socket.emit('number', nb);
+	console.log(`Sent ${nb} at ${socket.id}`);
 	if (nb < 3) {
 		players.set(nb, socket.id);
 		socket.on( 'disconnect', () => {
@@ -29,8 +31,6 @@ io.on('connection', socket => {
 		console.log(`Disconnecting ${socket.id} : too many players already connected`);
 		socket.disconnect(true);
 	}
-	socket.emit('number', nb);
-	console.log(`Sent ${nb} at ${socket.id}`);
 });
 
 

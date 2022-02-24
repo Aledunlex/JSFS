@@ -5,11 +5,13 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "serve": "nodemon main.js"
   },
-  "author": "YOU",
+  "author": "ledun_skoczylas",
   "license": "ISC",
   "dependencies": {
+    "nodemon": "^2.0.15",
     "socket.io": "^4.4.1"
   }
 }
