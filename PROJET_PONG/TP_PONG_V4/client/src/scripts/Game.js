@@ -93,7 +93,6 @@ export default class Game {
   /* If the ball stopped moving, determines a winner, disables the play/stop button, and stops the animation */
   handleEndOfRound() {
     if (!this.onGoing()) {
-      console.log("ICIIIIII");
       this.determineWinner();
       this.handleDocumentEndOfRound();
       this.stop();
@@ -193,6 +192,7 @@ export default class Game {
     this.socket.on('restart game', () => this.reinitializeGame());
     this.socket.on('other moved', (...message) => this.handleMobileMovement(this.otherPlayer, ...message));
     this.socket.on('move ball', (...message) => this.handleMobileMovement(this.ball, ...message) );
+    this.socket.on('disconnect player', () => this.stop());
   }
 
   welcomingMessage(message) {
@@ -205,9 +205,6 @@ export default class Game {
     }
     else {
       console.log("Connexion refused : too many players are already connected.")
-      this.stop();
-    }
-    if (this.socket.disabled) {
       this.stop();
     }
   }

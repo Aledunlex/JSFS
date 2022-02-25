@@ -58,7 +58,7 @@ export default class SocketController {
 
   handleDisconnexion(socketid) {
     console.log(`Disconnecting ${socketid} : one player disconnected. End of game.`);
-    this.#io.send(`One player disconnected. End of game. Disconnecting remaining player.`);
+    this.#io.emit('disconnect player');
     this.#io.disconnectSockets();
     this.#players.clear();
   }
