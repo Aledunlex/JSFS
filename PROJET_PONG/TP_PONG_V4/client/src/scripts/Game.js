@@ -67,7 +67,6 @@ export default class Game {
   animate() {
     this.moveAndDraw();
     this.raf = window.requestAnimationFrame(this.animate.bind(this));
-
     this.handleEndOfRound();
   }
 
@@ -94,6 +93,7 @@ export default class Game {
   /* If the ball stopped moving, determines a winner, disables the play/stop button, and stops the animation */
   handleEndOfRound() {
     if (!this.onGoing()) {
+      console.log("ICIIIIII");
       this.determineWinner();
       this.handleDocumentEndOfRound();
       this.stop();
@@ -146,7 +146,7 @@ export default class Game {
       switch (event.key) {
         case " ":
           if (!this.onGoing()) {
-            this.reinitializeGame();
+            this.socket.emit('espace', event.key);
           }
           break;
         case "ArrowUp":
@@ -190,6 +190,7 @@ export default class Game {
     this.socket = io();
     this.socket.on('number', (message) => this.welcomingMessage(message) );
     this.socket.on('ready to start', () => this.start() );
+    this.socket.on('restart game', () => this.reinitializeGame());
     this.socket.on('other moved', (...message) => this.handleMobileMovement(this.otherPlayer, ...message));
     this.socket.on('move ball', (...message) => this.handleMobileMovement(this.ball, ...message) );
   }
