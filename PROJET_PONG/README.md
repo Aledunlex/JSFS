@@ -48,5 +48,3 @@ Ces commandes resteront valides pour V2 et V3.
 2. Ouvrir la console dans `/client` et taper `npm run build` pour que le programme soit mis à jour dans `/client/dist`
 3. Puis taper `npm run dev-server` et ouvrir un navigateur à la page `http://localhost:8000/`
 
-
-# TODO : vérifier que ces consignes s'appliquent pour chaque version à partir d'un dépôt fraîchement cloné (ou d'un zip fraîchement extrait)
