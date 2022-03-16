@@ -1,30 +1,43 @@
 const mongoose = require('mongoose');
 
-// definition of schema
+const DEFAULT_IMAGE = '/images/noimage.jpg';
+
+/*
+ * setter for cover field in itemSchema, used to set a default value to image field if image is not defined
+ * @param image (string) the provided image field
+ * @return (string) the image value
+*/
+const setDefaultImage =
+  image => (image === undefined || image === '') ? DEFAULT_IMAGE : image;
+
 const itemSchema = new mongoose.Schema({
-    name : {
+    name :  {
+              type : String,
+              required : true
+            },
+    soldBy :  {
+                type : String,
+                required : true,
+                unique : true
+              },
+    _id :   {
+              type : String,
+              required : true
+            },
+    price : {
               type : String,
               required : true,
               unique : true
             },
-    soldBy : {
-                type : User,
-                required : true
-               },
-    _id : {
-              type : int,
-              required : true
+    image : {
+              type : String,
+              set : setDefaultImage
             },
-    price : {
-              type : int,
-              required : true
-            }
+    description : String
 });
-
 
 module.exports = itemSchema;
 
-// model
 const dbConnection = require('../controllers/db.controller');
 const Item = dbConnection.model('Item',itemSchema,'items');
 

@@ -6,8 +6,10 @@ const logger = require('morgan');
 
 // routers
 const indexRouter = require('./routes/index.route');
-const accessRouter = require('./routes/access.route');
+//const accessRouter = require('./routes/access.route');
 const userRouter = require('./routes/user.route');
+const itemRouter = require('./routes/item.route');
+
 // middlewares
 const errorMiddleware = require('./middlewares/error.middleware');
 // connection to data base
@@ -27,8 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/access', accessRouter);
+//booapp.use('/access', accessRouter);
 app.use('/user', userRouter);
+app.use('/items', itemRouter);
 
 app.use(errorMiddleware);
 module.exports = app;
