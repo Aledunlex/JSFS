@@ -6,7 +6,7 @@ const list =  async (_, res) => {
       const allItems = await Items.find();                    // select all the items from database
       res.render('allitems',                 // then use the result of the query to render the view in 'allitems.pug'
                  {
-                   title : 'Item list (with async/await)',
+                   title : "Liste d'objets en vente",
                    items : allItems
                  }
                 );
@@ -70,7 +70,7 @@ const oneItem =
     const foundItem = await Items.findOne();     // select first found document
     res.render('itemdetail',
               {
-                title : 'Only first item from list',
+                title : 'Dernier objet mis en vente',
                 request : 'Items.findOne()',
                 item : foundItem
               }) ;

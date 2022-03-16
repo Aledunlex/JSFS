@@ -1,7 +1,13 @@
 doctype html
+
+mixin createImage(imgSrc)
+  .cover
+    img(src=imgSrc)
+
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    block headblock
+      title= title
+      link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content

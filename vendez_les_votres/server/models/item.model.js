@@ -31,7 +31,7 @@ const itemSchema = new mongoose.Schema({
             },
     image : {
               type : String,
-              set : setDefaultImage
+              get : setDefaultImage //était mis à set plutôt que get
             },
     description : String
 });

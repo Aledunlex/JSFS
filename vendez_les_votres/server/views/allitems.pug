@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  table#booklist
+    each item in items
+      tr.book(data-id= item.id)
+        td.author= item.soldBy
+        td.title(data-id= item._id)
+          a(href=`/items/details/${item._id}`)= item.name
+        td= `${item.price}€`
+        td
+           a(href= '/items/adddetails/'+item._id) Ajouter des détails
+        td
+          a(href= '/items/update/'+item._id) Mettre à jour
+        td.delete
+           a(href= '/items/delete/'+item._id) X
