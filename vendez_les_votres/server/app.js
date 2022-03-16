@@ -6,7 +6,7 @@ const logger = require('morgan');
 
 // routers
 const indexRouter = require('./routes/index.route');
-//const accessRouter = require('./routes/access.route');
+const accessRouter = require('./routes/access.route');
 const userRouter = require('./routes/user.route');
 const itemRouter = require('./routes/item.route');
 
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//booapp.use('/access', accessRouter);
+app.use('/access', accessRouter);
 app.use('/user', userRouter);
 app.use('/items', itemRouter);
 
