@@ -10,13 +10,13 @@ const setup = () => {
 }
 window.addEventListener('DOMContentLoaded', setup);
 
-const register =  async admin => {
+const register =  async () => {
   const userData = {
                      name : username.value,
                      login : userlogin.value,
                      password : userpassword.value,
                    };
-  console.log(`data : ${userData.admin}`);
+  console.log(`data : ${userData}`);
   const body = JSON.stringify(userData);
   const requestOptions = {
                          method :'POST',
