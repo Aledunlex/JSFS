@@ -1,6 +1,6 @@
 const DB_HOST = 'localhost';
 const DB_PORT = 27017;
-const DB_NAME = 'toyBase';
+const DB_NAME = 'salesDataBase';
 const DB_URI = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`
 
 module.exports = {

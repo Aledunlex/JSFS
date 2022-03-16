@@ -1,9 +1,4 @@
 
 module.exports.home =
-  (req, res) => res.render('index', { title: 'Introduction à JWT' });
+  (req, res) => res.render('index', { title: 'Vendez les vôtres' });
 
-module.exports.about =
-    (req, res) => res.render('about');
-
-module.exports.adminonly =
-    (req, res) => res.render('adminonly');
