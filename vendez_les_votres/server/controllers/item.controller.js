@@ -21,20 +21,6 @@ const listThen =
                                          { title : 'Item list (with then)',
                                            items : allItems } ) );
 
-/* controller for /items/dune : find item(s) with title Dune */
-const dune =
-  async (_, res) => {
-    const allItems = await Items.find({title : 'Dune'});          // select all the documents that match the given property, here title='Dune'
-    res.render( 'allitems',
-                {
-                  title : 'Only Dune',
-                  request : "Items.find({title : 'Dune'})",
-                  items : allItems
-                } );
-  }
-
-
-
 const DEFAULT_YEAR = 2000;
 /* controller for /items/afterv1/:year find items where year after :year */
 const itemsAfter2000v1 =
@@ -202,7 +188,6 @@ const createItem =
 
 module.exports.list = list;
 module.exports.listThen = listThen;
-module.exports.dune = dune;
 module.exports.itemsAfter2000v1 = itemsAfter2000v1;
 module.exports.itemsAfter2000v2 = itemsAfter2000v2;
 module.exports.oneItem = oneItem;

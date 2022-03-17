@@ -9,8 +9,7 @@ router.get('/', itemsController.list);
 
 router.get('/then', itemsController.listThen);
 
-router.get('/one', itemsController.oneItem);
-router.get('/dune', itemsController.dune);
+router.get('/one', itemsController.oneItem); //montre le premier posté sur le site
 router.get('/after/:year/v1', itemsController.itemsAfter2000v1);
 router.get('/after/:year/v2', itemsController.itemsAfter2000v2);
 router.get('/details/:itemId', itemsController.details );

@@ -7,7 +7,7 @@ block content
       tr.book(data-id= item.id)
         td.author= item.soldBy
         td.title(data-id= item._id)
-          a(href=`/items/details/${item._id}`)= item.name
+          a(href=`/items/details/${item._id}`)= item.title
         td= `${item.price}€`
         td
            a(href= '/items/adddetails/'+item._id) Ajouter des détails

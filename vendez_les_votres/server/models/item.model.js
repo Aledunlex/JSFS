@@ -11,23 +11,17 @@ const setDefaultImage =
   image => (image === undefined || image === '') ? DEFAULT_IMAGE : image;
 
 const itemSchema = new mongoose.Schema({
-    name :  {
+    title :  {
               type : String,
               required : true
             },
     soldBy :  {
                 type : String,
-                required : true,
-                unique : true
+                required : true
               },
-    _id :   {
-              type : String,
-              required : true
-            },
     price : {
-              type : String,
-              required : true,
-              unique : true
+              type : Number,
+              required : true
             },
     image : {
               type : String,
