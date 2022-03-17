@@ -50,7 +50,7 @@ const logout = async () => {
                        };
   const response = await fetch(`/access/logout`, requestOptions);
   if (response.ok) {
-    window.location.href= '/';
+    window.location.href= '/user';
   }
 }
 

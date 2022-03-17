@@ -6,28 +6,10 @@ append headblock
 block content
   - var theitem
   - if (item) { theitem = item} else { theitem =  { title : '', soldBy : '', price : ''} }
-  h1 Create item
-  p Provide new item data
+  h1 Créez une annonce
+  p Mettre votre objet en vente
   div
     input#title(placeholder="Titre de l'annonce", value= theitem.title)
     input#price(placeholder="Prix de vente", value= theitem.price)
     button#createbutton create
   #result
-
-
-//- extends layout
-
-//- append headblock
-//-   script(src="/javascripts/create-item.js")
-
-//- block content
-
-//-   h1 Create e new item
-//-   p Provide new item data and click button to create a new document Book in base
-//-   div
-//-     input#title(placeholder="title")
-//-     input#soldBy(placeholder="author")
-//-     input#price(placeholder="year")
-//-     input#image(placeholder="cover image")
-//-     button#createbutton create
-//-   #result

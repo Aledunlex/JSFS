@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  a(href="/items/create")= "Publier une annonce"
   table#booklist
     each item in items
       tr.book(data-id= item.id)
@@ -15,3 +16,6 @@ block content
           a(href= '/items/update/'+item._id) Mettre à jour
         td.delete
            a(href= '/items/delete/'+item._id) X
+    else
+      td Aucun actuellement objet en vente
+  

@@ -4,6 +4,8 @@ const router = express.Router();
 /* GET home page. */
 // 'render' utilise le moteur de vue (donc pour nous, 'pug')
 // pour construire les pages fournies en réponse
-router.get('/', (req, res, next) => res.render('index', { title: 'Express' }) );
+const indexController = require('../controllers/index.controller');
+
+router.get('/', indexController.home);
 
 module.exports = router;

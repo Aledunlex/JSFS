@@ -3,12 +3,15 @@ extends layout
 
 block content
   h1= title
-  p Identifiant de l'annonce: #[code= item._id]
-  h2.title= `${item.title} à ${item.price}€`
-  .author Mis en vente par #{item.soldBy.toUpperCase()}
-  +createImage(`${item.image}`)
-  if item.description
-    #details
-      p Description :
-      dl
-        dd #{item.description}
+  if item
+    p Identifiant de l'annonce: #[code= item._id]
+    h2.title= `${item.title} à ${item.price}€`
+    .author Mis en vente par #{item.soldBy.toUpperCase()}
+    +createImage(`${item.image}`)
+    if item.description
+      #details
+        p Description :
+        dl
+          dd #{item.description}
+  else 
+    h2.title= "Aucun objet à afficher!"

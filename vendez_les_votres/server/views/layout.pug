@@ -9,5 +9,16 @@ html
     block headblock
       title= title
       link(rel='stylesheet', href='/stylesheets/style.css')
+  nav#navbar  
+      ul
+        li
+          a(href="/")= "Accueil"
+        li
+          a(href="/user")= "Gestion du compte"
+        li
+          a(href="/items")= "Parcourir les annonces"
+        li
+          a(href="/items/create")= "Créer une annonce"
+
   body
     block content

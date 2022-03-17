@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// import controller for index
 const accessController = require('../controllers/access.controller');
 
 router.get('/login', accessController.loginForm );

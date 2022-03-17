@@ -1,13 +1,13 @@
 const User = require('../models/user.model').model;
 
-module.exports.home = (_,res) => res.redirect('/user.html');
+module.exports.home = (_,res) => res.render('user');
 
 module.exports.me =
   async (req, res) =>  {
     const user = await User.findById(req.userId);
     console.log(user);
     console.log(req.userId);
-    res.status(200).json({ name : user.name });
+    res.status(200).json({ login : user.login });
   }
 
 module.exports.update =
@@ -17,5 +17,5 @@ module.exports.update =
     const user = await User.findByIdAndUpdate(req.userId,
                                               updatedData,
                                               { new : true });
-    res.status(200).json({ name : user.name , message : 'mise à jour réussie'});
+    res.status(200).json({ money : user.money , message : 'mise à jour réussie'});
   }

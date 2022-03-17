@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 
 // definition of schema
 const userSchema = new mongoose.Schema({
-    name : String,
+    money : {
+              type : Number,
+              default : 200,
+              required : true
+            },
     login : {
               type : String,
               required : true,

@@ -12,9 +12,8 @@ window.addEventListener('DOMContentLoaded', setup);
 
 const register =  async () => {
   const userData = {
-                     name : username.value,
                      login : userlogin.value,
-                     password : userpassword.value,
+                     password : userpassword.value
                    };
   console.log(`data : ${userData}`);
   const body = JSON.stringify(userData);

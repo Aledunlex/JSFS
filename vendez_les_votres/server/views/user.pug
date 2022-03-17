@@ -1,4 +1,13 @@
 extends layout
 
+append headblock
+    script(src="/javascripts/user.client.js", defer="true")
+
 block content
-  h1 Mon compte
+  h1 Information utilisateur
+  div(id='userdata')
+    input#username(type="text", placeholder="Nom", value= username)
+  div(id='controls')
+    button#update Mise à jour
+    button#logout Déconnexion
+  
