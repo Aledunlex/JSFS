@@ -56,7 +56,7 @@ const oneItem =
     const foundItem = await Items.findOne();     // select first found document
     res.render('itemdetail',
               {
-                title : 'Dernier objet mis en vente',
+                title : 'Premier objet mis en vente',
                 request : 'Items.findOne()',
                 item : foundItem
               }) ;
@@ -72,7 +72,7 @@ const details =
     const foundItem = await Items.findById( req.params.itemId );
     res.render('itemdetail',
                             {
-                              title : 'Item by _id using findById()',
+                              title : 'Annonce retrouvée par identifiant',
                               request : 'Items.findById( req.params.itemId )',
                               item : foundItem
                             } );
@@ -184,7 +184,7 @@ const createItem =
 
 
  /* controller for GET /create : return the view with create form */
- const createForm =   (_,res) => res.render('createItem');
+ const createForm =   (_,res) => res.render('createItem', { title: "Création d'une annonce" });
 
 module.exports.list = list;
 module.exports.listThen = listThen;

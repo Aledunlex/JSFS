@@ -9,15 +9,17 @@ html
     block headblock
       title= title
       link(rel='stylesheet', href='/stylesheets/style.css')
-  nav#navbar  
+  block nav
+    nav
+    - var active = "index.html"
       ul
-        li
+        li(class=(title === "Vendez les vôtres" ? "active" : undefined))
           a(href="/")= "Accueil"
-        li
+        li(class=(title === "Gestion du compte" ? "active" : undefined))
           a(href="/user")= "Gestion du compte"
-        li
+        li(class=(title === "Liste d'objets en vente" ? "active" : undefined))
           a(href="/items")= "Parcourir les annonces"
-        li
+        li(class=(title === "Création d'une annonce" ? "active" : undefined))
           a(href="/items/create")= "Créer une annonce"
 
   body

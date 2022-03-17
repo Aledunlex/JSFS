@@ -1,6 +1,6 @@
 const User = require('../models/user.model').model;
 
-module.exports.home = (_,res) => res.render('user');
+module.exports.home = (_,res) => res.render('user', { title : "Gestion du compte" });
 
 module.exports.me =
   async (req, res) =>  {

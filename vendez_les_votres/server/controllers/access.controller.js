@@ -9,7 +9,7 @@ const jwtConfig = require('../config/jwt.config');
 * fournit en résultat une vue qui gère le formulaire d'inscription
 */
 //const registerForm = (_,res) => res.redirect('/register.html');
-const registerForm =   (_,res) => res.render('createUser');
+const registerForm =   (_,res) => res.render('createUser', { title : "Gestion du compte" } );
 /*
 * crée l'entrée correspondant à l'utilisateur à partir des informations fournies
 * le mot de passe est crypté avant d'être stocké en base
@@ -41,7 +41,7 @@ const register = async (req, res) => {
 * fournit en résultat une vue qui gère le formulaire d'identification
 */
 //const loginForm = (_,res) => res.redirect('/login.html'); 
-const loginForm = (_,res) => res.render('login'); 
+const loginForm = (_,res) => res.render('login', { title : "Gestion du compte" } );
 /*
 * cherche s'il existe un utilisateur correspondant aux identifiants/mot de passe fournis
 * si c'est le cas un jeton JWT est créé et renvoyé

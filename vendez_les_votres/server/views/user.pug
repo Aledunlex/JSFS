@@ -4,7 +4,8 @@ append headblock
     script(src="/javascripts/user.client.js", defer="true")
 
 block content
-  h1 Information utilisateur
+  title= title
+  h1 Informations utilisateur
   div(id='userdata')
     input#username(type="text", placeholder="Nom", value= username)
   div(id='controls')

@@ -23,7 +23,7 @@ const askForItemCreation =
     const response = await fetch('/items/create', requestOptions);
     if (response.ok) {
       const item = await response.json();
-      result.textContent = `item ${item.title} created with id ${item._id} `;
+      result.textContent = `Votre annonce pour "${item.title}" a été créée!`;
     } else {
        const error = await response.json();
        result.textContent = `error : ${error.message}`;
