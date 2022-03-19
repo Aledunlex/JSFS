@@ -90,11 +90,6 @@ const createItem =
    catch(error) {
      res.status(400).json(error);
    }
-   /*  promise.then version
-   Items.create(newItemData)
-     .then( createdook => res.status(200).json(createdItem) ) ;    //  responds with code 200 and sends created item
-     .catch( error => res.status(400).json(error) );       // if creation fails => responds with code 400
-    */
  }
 
  /* details adding */
@@ -104,11 +99,6 @@ const createItem =
      const item = await Items.findById( req.params.itemId );
      res.render('addDetails', { item : item });
    }
- /* promise.then version
- Items.findById( req.params.itemId )
-      .then( item => res.render('addDetails', { item : item }) );
- */
-
 
  /* controller for POST /details/:itemId */
  const addDetails =
@@ -124,16 +114,6 @@ const createItem =
        res.status(400).json(error);
      }
    }
- /* promise.then version
- Items.findById( req.params.itemId )              // we find item by id according to param
-      .then( item => {
-                      item.details = details;      // item details are changed accroding to received data
-                      return item.save();          // item is saved => details are updated
-                     })
-      .then( item => res.status(200).json(item))
-      .catch( error => res.status(400).json(error) );
- */
-
 
  /*
   * updating
@@ -161,11 +141,6 @@ const createItem =
       res.status(400).json(error);
     }
    }
- /* promise.then.catch version
- Items.findByIdAndUpdate( req.params.itemId, updatedItem, { new : true } )         // updating is done
-   .then( () => res.status(200).json( {id : req.params.itemId} ) )
-   .catch( error => res.status(400).json(error) );
- */
 
  /*
   * deleting

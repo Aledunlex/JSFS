@@ -58,7 +58,6 @@ const login = async (req, res) => {
 
       // create and send token
       const token = jwt.sign({id: user._id}, jwtConfig.SECRET_TOKEN, {expiresIn : '60s'} );
-      console.log(`login : ${token}`);
       res.cookie('token', token,  { maxAge : 60000, httpOnly: true, sameSite : 'strict' })  // secure : true (avec https)
       res.status(200).json({ message : 'utilisateur connecté' });
     }

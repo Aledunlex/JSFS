@@ -1,14 +1,15 @@
-let userlogin;
-let userpassword;
-let username;
+let userloginInput;
+let usermoney;
 
 const setup = () => {
-  username = document.getElementById('username');
+  userloginInput = document.getElementById('userlogin');
   getUser();
   document.getElementById('update').addEventListener('click', update);
   document.getElementById('logout').addEventListener('click', logout);
 }
 window.addEventListener('DOMContentLoaded', setup);
+
+
 
 const getUser = async () => {
   const requestOptions = {
@@ -17,7 +18,7 @@ const getUser = async () => {
   const response = await fetch('/user/me', requestOptions);
   if (response.ok) {
     const user = await response.json();
-    username.value = user.name || '';
+    userloginInput.value = user.login || '';
   }
   else {
     const error = await response.json();
@@ -26,7 +27,7 @@ const getUser = async () => {
 }
 
 const update =  async () => {
-  const userData = { name : username.value };
+  const userData = { login : userloginInput.value };
   const body = JSON.stringify(userData);
   const requestOptions = {
                          method :'PUT',

@@ -7,8 +7,8 @@ const validToken = (req, res , next) => {
   try {
     const token = req.cookies.token;
     const decoded = jwt.verify(token, jwtConfig.SECRET_TOKEN);
-    console.log(`decoded :${decoded.id}`);
     req.userId = decoded.id;   // add user id to request : retrieved from token since added to payload
+    console.log(`decoded req.userId: ${req.userId}`);
     next();
   }
   catch (err) {
