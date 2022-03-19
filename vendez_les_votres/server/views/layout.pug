@@ -8,6 +8,7 @@ html
   head
     block headblock
       title= title
+      
       link(rel='stylesheet', href='/stylesheets/style.css')
       script(src="/javascripts/displayLogin.js", defer="true")
   block nav
@@ -22,6 +23,7 @@ html
           a(href="/items")= "Parcourir les annonces"
         li(class=(title === "Création d'une annonce" ? "active" : undefined))
           a(href="/items/create")= "Créer une annonce"
+      #loginDisplay
 
   body
     block content
