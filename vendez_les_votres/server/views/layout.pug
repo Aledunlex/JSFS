@@ -10,7 +10,7 @@ html
       title= title
       
       link(rel='stylesheet', href='/stylesheets/style.css')
-      script(src="/javascripts/displayLogin.js", defer="true")
+      //- script(src="/javascripts/displayLogin.js", defer="true")  plus utilisé, cf commentaire dans le fichier
   block nav
     nav
     - var active
@@ -19,11 +19,13 @@ html
           a(href="/")= "Accueil"
         li(class=(title === "Gestion du compte" ? "active" : undefined))
           a(href="/user")= "Gestion du compte"
+        li(class=(title === "Vos annonces" ? "active" : undefined))
+          a(href="/items/myitems")= "Mes annonces"
         li(class=(title === "Liste d'objets en vente" ? "active" : undefined))
           a(href="/items")= "Parcourir les annonces"
         li(class=(title === "Création d'une annonce" ? "active" : undefined))
           a(href="/items/create")= "Créer une annonce"
-      #loginDisplay
+      //- #loginDisplay idem plus utilisé mais laissé dans le cas où on trouve une meilleure façon plus tard
 
   body
     block content

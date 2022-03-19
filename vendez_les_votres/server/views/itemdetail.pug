@@ -2,10 +2,8 @@ extends layout
 
 
 block content
-  h1= title
   if item
-    p Identifiant de l'annonce: #[code= item._id]
-    h2.title= `${item.title} à ${item.price}€`
+    h2.title= `${item.title} - ${item.price}€`
     .author Mis en vente par #{item.soldBy.toUpperCase()}
     +createImage(`${item.image}`)
     if item.description
