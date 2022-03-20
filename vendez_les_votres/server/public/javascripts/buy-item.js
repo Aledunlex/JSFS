@@ -8,7 +8,6 @@ window.addEventListener('DOMContentLoaded', setupListener);
 
 /**
  * Todo
- * - récupérer l'item à acheter depuis le bouton cliqué (comment?)
  */
 const askToBuyItem =
   async (event) => {
@@ -39,22 +38,23 @@ const askToBuyItem =
     }
   }
 
-  const update =  async () => {
-    console.log("appel d'update dans user.client");
-    const userData = { login : userloginInput.value };
-    const body = JSON.stringify(userData);
-    const requestOptions = {
-                           method :'PUT',
-                           headers : { "Content-Type": "application/json" },
-                           body : body
-                         };
-    const response = await fetch('/user/me', requestOptions);
-    if (response.ok) {
-      const updatedUser = await response.json();
-      console.log(`user updated : ${JSON.stringify(updatedUser)}`);
-    }
-    else {
-      const error = await response.json();
-      handleError(error);
-    }
-  }
+  // fonction update recopiée ici pour référence
+  // const update =  async () => {
+  //   console.log("appel d'update dans user.client");
+  //   const userData = { login : userloginInput.value };
+  //   const body = JSON.stringify(userData);
+  //   const requestOptions = {
+  //                          method :'PUT',
+  //                          headers : { "Content-Type": "application/json" },
+  //                          body : body
+  //                        };
+  //   const response = await fetch('/user/me', requestOptions);
+  //   if (response.ok) {
+  //     const updatedUser = await response.json();
+  //     console.log(`user updated : ${JSON.stringify(updatedUser)}`);
+  //   }
+  //   else {
+  //     const error = await response.json();
+  //     handleError(error);
+  //   }
+  // }
