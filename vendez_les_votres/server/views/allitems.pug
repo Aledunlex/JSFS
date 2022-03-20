@@ -23,7 +23,7 @@ block content
         else 
           td.delete
             if item.price <= user.money
-              button#buybutton Acheter
+              button(class= 'buybutton', data-id= item.id) Acheter
     else
       td Aucun objet actuellement en vente
   

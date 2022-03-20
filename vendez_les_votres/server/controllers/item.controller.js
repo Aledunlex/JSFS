@@ -79,13 +79,42 @@ const createItem =
       try {
         const user = await Users.findById( req.userId );
         const item = await Items.findById( req.params.itemId );
-        if(item.soldBy === user.login) {
+        if(item.soldBy === user.login) {  // problème : on veut aussi pouvoir deleteItem quand on l'achète, donc on n'est pas le vendeur... faire autre fonction?
           await Items.findByIdAndRemove( req.params.itemId ).remove();
           console.log(`--> item ${req.params.itemId} deleted`);
           res.status(301).redirect('/items');
         }
         else
           res.status(401).redirect('/items');
+      }
+      catch(error) {
+        throw error ;
+      }
+    }
+  
+  /*
+  * buying
+  */
+  const buyItem = 
+    async (req,res) => {
+      try {
+        const buyer = await Users.findById( req.userId );
+        const item = await Items.findById( req.params.itemId );
+        const seller = await Users.find( {login: item.soldBy} );
+        const itprice = item.price;
+        if(itprice <= buyer.money) {
+          await User.findByIdAndUpdate(buyer.id,
+                                    { money: buyer.money - itprice },
+                                    { new : true });
+          await User.findByIdAndUpdate(seller.id,
+                                    { money: seller.money + itprice },
+                                    { new : true });
+          await Items.findByIdAndRemove( req.params.itemId ).remove();
+          console.log(`--> item ${req.params.itemId} sold to ${buyer.login}`);
+          res.status(301);
+        }
+        else
+          res.status(401);
       }
       catch(error) {
         throw error ;

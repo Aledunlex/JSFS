@@ -8,10 +8,15 @@ module.exports.me =
     res.status(200).json({ login : user.login });
   }
 
-module.exports.update =
+// appelé dans user.client.js par la fonction const update
+// l'appel se fait car user.route définit router.put sur la route /user/me
+// et user.clients, dans sa méthode update, fait une requête PUT sur cette route
+// ici req.body fait référence à ce qui est définit dans requestOptions de
+// la méthode update d'user.clients; 
+module.exports.userupdate =
   async (req,res) => {
     const updatedData = { ...req.body };
-    console.log(updatedData);
+    console.log("appel de userupdate dans user.controller", req.body);
     const user = await User.findByIdAndUpdate(req.userId,
                                               updatedData,
                                               { new : true });

@@ -7,7 +7,6 @@ block content
   - var theitem
   - if (item) { theitem = item } else { theitem =  { title : '', soldBy : '', price : ''} }
   h1 Créez une annonce
-  p Mettre votre objet en vente
   div(id='userdata')
     input#title(placeholder="Titre de l'annonce", value= theitem.title)
     input#price(placeholder="Prix de vente", value= theitem.price)

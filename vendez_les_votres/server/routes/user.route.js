@@ -8,6 +8,6 @@ const userController = require('../controllers/user.controller');
 
 router.get('/', userController.home );
 router.get('/me', authMiddleware.validToken, userController.me );
-router.put('/me', authMiddleware.validToken, userController.update );
+router.put('/me', authMiddleware.validToken, userController.userupdate );
 
 module.exports = router;
