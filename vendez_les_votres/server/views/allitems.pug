@@ -1,17 +1,29 @@
 extends layout
 
+
+append headblock
+  unless myItems
+    script(src="/javascripts/buy-item.js")
+
 block content
   h1= title
+  unless myItems
+    p#lastBought
   table#booklist
     each item in items
       tr.book(data-id= item.id)
-        td.author= item.soldBy
+        unless myItems
+          td.author= item.soldBy
         td.title(data-id= item._id)
           a(href=`/items/details/${item._id}`)= item.title
         td= `${item.price}€`
         if myItems
           td.delete
-            a(href= '/items/delete/'+item._id) X
+            a(href='/items/delete/'+item._id) X
+        else 
+          td.delete
+            if item.price <= user.money
+              button#buybutton Acheter
     else
       td Aucun objet actuellement en vente
   

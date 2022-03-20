@@ -6,7 +6,6 @@ let loginDisplay;
  * et en plus ça implique de faire la requête à la base Users à chaque page...
  * Donc probablement pas très propre comme façon de faire
  */
-
 const loginDisplaySetup = () => {
     loginDisplay = document.getElementById('loginDisplay');
     getUserLogin();
