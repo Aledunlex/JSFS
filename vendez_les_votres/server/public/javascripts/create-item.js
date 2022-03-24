@@ -11,7 +11,7 @@ const askForItemCreation =
       // retrieve data about item to create from the input fields
       const newItem = {
                         title : title.value,
-                        soldBy : user.login,
+                        soldBy : user.id,
                         price : price.value,
                         };
       // body is built from created item
@@ -23,7 +23,7 @@ const askForItemCreation =
                                 body : bodyContent
                               };
       // send the request to the server to create the entry corresponding to item
-      const itemResponse = await fetch('/items/create', requestOptions);
+      const itemResponse = await fetch('/users/create', requestOptions);
       if (itemResponse.ok) {
         const item = await itemResponse.json();
         result.textContent = `Votre annonce pour "${item.title}" a été créée!`;

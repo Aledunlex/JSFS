@@ -13,16 +13,13 @@ const askToBuyItem =
   async (event) => {
     const clickedButton = event.target;
     const correspondingItemID = clickedButton.getAttribute('data-id');
-    const buyerResponse = await fetch('/user/me', { method :'GET' });
+    const buyerResponse = await fetch(`/items/buy/${correspondingItemID}`, { method :'GET' });
     if (buyerResponse.ok) {
       const buyer = await buyerResponse.json();
       const Bmoney = buyer.money;
-
-      const requestedItem = null; //todo, trouver l'objet d'après son ID
+      console.log(buyerResponse);
       // if (requestedItem.price <= Bmoney) {
       //   // créditer le vendeur -> find l'User dont {login: requestedItem.soldBy} et update son {money: Smoney + requestedItem.price}
-        const seller = null; //todo
-        const Smoney = seller.money;
 
       //   // débiter l'acheteur -> update son {money: Bmoney - requestedItem.price}
 
@@ -34,7 +31,7 @@ const askToBuyItem =
       // }
     } else {
        const error = await buyerResponse.json();
-       result.textContent = `error : ${error.message}`;
+       console.log( `error : ${error.message}`);
     }
   }
 

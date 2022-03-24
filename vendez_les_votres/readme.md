@@ -4,14 +4,15 @@
 
 ## Commandes
 
-mongod -dbpath .\tDepuis le dossier server\database
-puis
+`mongod -dbpath .`
 
-npm run start
+Depuis le dossier `server\database`, puis
 
-depuis le dossier server
+`npm run start`
 
-puis localhost:3000 dans firefox
+depuis le dossier `\server`
+
+puis `localhost:3000` dans firefox
 
 ### TODO
 
