@@ -5,7 +5,7 @@ const Users = require('../models/user.model').model;
 
 const listMyItems =  async (req, res) => {
       const user = await Users.findById(req.userId);
-      const allItems = await Items.find( {soldBy:user.login} );
+      const allItems = await Items.find( {soldBy:user._id} );
       res.render('allitems',                 // then use the result of the query to render the view in 'allitems.pug'
                  {
                    title : "Vos annonces",
@@ -18,7 +18,7 @@ const listMyItems =  async (req, res) => {
 
 const listOtherItems =  async (req, res) => {
   const user = await Users.findById( req.userId );
-  const allItems = await Items.find( {soldBy: {$ne: user.login} } );
+  const allItems = await Items.find( {soldBy: {$ne: user._id} } );
   res.render('allitems',                 // then use the result of the query to render the view in 'allitems.pug'
              {
                title : "Liste d'objets en vente",
@@ -72,16 +72,15 @@ const buyItem =
         await Users.findByIdAndUpdate(seller.id,
                                   { money: seller.money + itprice },
                                   { new : true });
-        await Items.findByIdAndRemove( req.params.itemId ).remove();
-        console.log(`--> item ${req.params.itemId} sold to ${buyer.login}`);
-        console.log(`--> APRES ${buyer}, ${seller}`);
-        res.status(301);
+        await Items.deleteOne( foundItem );
+        console.log(`--> item ${foundItem.title} sold by ${seller.login} to ${buyer.login}`);
+        res.status(301).redirect('/items');
       }
       else
         res.status(401);
     }
     catch(error) {
-      throw error ;
+      res.status(400).json(error);
     }
   }
 
@@ -107,25 +106,19 @@ const createItem =
       try {
         const user = await Users.findById( req.userId );
         const item = await Items.findById( req.params.itemId );
-        if(item.soldBy === user.login) {  // problème : on veut aussi pouvoir deleteItem quand on l'achète, donc on n'est pas le vendeur... faire autre fonction?
-          await Items.findByIdAndRemove( req.params.itemId ).remove();
+        if(item.soldBy === req.userId) {
+          await Items.deleteOne( {_id : req.params.itemId} );
           console.log(`--> item ${req.params.itemId} deleted`);
-          res.status(301).redirect('/items');
+          res.status(301).redirect('/items/myitems');
         }
         else
-          res.status(401).redirect('/items');
+          res.status(401).redirect('/items/myitems');
       }
       catch(error) {
-        throw error ;
+        res.status(400).json(error);
       }
     }
   
-  /*
-  * buying
-  * TODO!
-  
-
-
  /* controller for GET /create : return the view with create form */
  const createForm =   (_,res) => res.render('createItem', { title: "Création d'une annonce" });
 

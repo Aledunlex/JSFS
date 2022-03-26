@@ -57,8 +57,8 @@ const login = async (req, res) => {
         return res.status(401).json({ message : 'mot de passe incorrect.'});
 
       // create and send token
-      const token = jwt.sign({id: user._id}, jwtConfig.SECRET_TOKEN, {expiresIn : '60s'} );
-      res.cookie('token', token,  { maxAge : 60000, httpOnly: true, sameSite : 'strict' })  // secure : true (avec https)
+      const token = jwt.sign({id: user._id}, jwtConfig.SECRET_TOKEN, {expiresIn : '120s'} );
+      res.cookie('token', token,  { maxAge : 120000, httpOnly: true, sameSite : 'strict' })  // secure : true (avec https)
       res.status(200).json({ message : 'utilisateur connecté' });
     }
     else { // unknown login

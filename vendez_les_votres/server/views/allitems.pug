@@ -8,12 +8,10 @@ append headblock
 block content
   h1= title
   unless myItems
-    p#lastBought
+    #lastBought
   table#booklist
     each item in items
       tr.book(data-id= item.id)
-        unless myItems
-          td.author= item.soldBy
         td.title(data-id= item._id)
           a(href=`/items/details/${item._id}`)= item.title
         td= `${item.price}€`

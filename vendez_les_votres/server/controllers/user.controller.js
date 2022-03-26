@@ -4,8 +4,13 @@ module.exports.home = (_,res) => res.render('user', { title : "Gestion du compte
 
 module.exports.me =
   async (req, res) =>  {
-    const user = await User.findById(req.userId);
-    res.status(200).json({ login : user.login });
+    try {
+      const user = await User.findById(req.userId);
+      res.status(200).json({ _id : user._id, login : user.login, money : user.money });
+    }
+    catch {
+      res.status(401);
+    }
   }
 
 // appelé dans user.client.js par la fonction const update
@@ -16,7 +21,6 @@ module.exports.me =
 module.exports.userupdate =
   async (req,res) => {
     const updatedData = { ...req.body };
-    console.log("appel de userupdate dans user.controller", req.body);
     const user = await User.findByIdAndUpdate(req.userId,
                                               updatedData,
                                               { new : true });

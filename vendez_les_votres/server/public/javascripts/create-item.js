@@ -5,42 +5,48 @@ window.addEventListener('DOMContentLoaded', setupListener);
 
 const askForItemCreation =
   async () => {
-    const userResponse = await fetch('/user/me', { method :'GET' });
-    if (userResponse.ok) {
-      const user = await userResponse.json();
-      // retrieve data about item to create from the input fields
-      const newItem = {
-                        title : title.value,
-                        soldBy : user.id,
-                        price : price.value,
-                        };
-      // body is built from created item
-      const bodyContent = JSON.stringify(newItem);
-      // options for a POST method that conains json
-      const requestOptions = {
-                                method :'POST',
-                                headers : { "Content-Type": "application/json" },
-                                body : bodyContent
-                              };
-      // send the request to the server to create the entry corresponding to item
-      const itemResponse = await fetch('/users/create', requestOptions);
-      if (itemResponse.ok) {
-        const item = await itemResponse.json();
-        result.textContent = `Votre annonce pour "${item.title}" a été créée!`;
+    if (price.value >= 0) {
+      const userResponse = await fetch('/user/me', { method :'GET' });
+      if (userResponse.ok) {
+        const user = await userResponse.json();
+        // retrieve data about item to create from the input fields
+        const newItem = {
+                          title : title.value,
+                          soldBy : user._id,
+                          price : price.value,
+                          };
+        
+        // body is built from created item
+        const bodyContent = JSON.stringify(newItem);
+        // options for a POST method that conains json
+        const requestOptions = {
+                                  method :'POST',
+                                  headers : { "Content-Type": "application/json" },
+                                  body : bodyContent
+                                };
+        // send the request to the server to create the entry corresponding to item
+        const itemResponse = await fetch('/items/create', requestOptions);
+        if (itemResponse.ok) {
+          const item = await itemResponse.json();
+          result.textContent = `Votre annonce pour "${item.title}" a été créée!`;
+        }
+        else {
+          const error = await itemResponse.json();
+          result.textContent = `error : ${error.message}`;
       }
-      else {
-        const error = await itemResponse.json();
+      } else {
+        const error = await userResponse.json();
         result.textContent = `error : ${error.message}`;
-     }
-    } else {
-       const error = await userResponse.json();
-       result.textContent = `error : ${error.message}`;
+      }
+      clearInputs();
     }
-    clearInputs();
+    else {
+      result.textContent = `error : Le prix ne peut pas être une valeur négative...`;
+    }
   }
 
   /** clear all input fields */
-  const clearInputs = function() {
+  const clearInputs = () => {
     title.value = "";
     price.value = "";
   }
