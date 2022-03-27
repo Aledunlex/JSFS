@@ -28,9 +28,7 @@ const askToBuyItem = async (event) => {
     const correspondingItemID = clickedButton.getAttribute('data-id');
     const buyResponse = await fetch(`/items/buy/${correspondingItemID}`, { method :'GET' });
     if (buyResponse.ok) {
-      const itemLine = moveItemLineUp(correspondingItemID);
-      lastBought.innerHTML = "Dernier achat :\n"+itemLine.firstElementChild.innerText;
-      //lastBought.appendChild(itemLine.removeChild());
+      moveItemLineUp(correspondingItemID);
       updateUserDisplay();
     } else {
       const error = await buyResponse.json();
@@ -43,8 +41,9 @@ const moveItemLineUp = (itemID) => {
     const table = document.getElementById("booklist");
     const cells = Array.from(table.getElementsByTagName("tr"));
     const itemLine = cells.find(line => line.getAttribute('data-id') === itemID);
-    console.log(itemLine);
     itemLine.remove();
+    lastBought.innerHTML = "Dernier achat :\n"+itemLine.firstElementChild.innerText;
+    if (cells.length == 1) table.remove();
     return itemLine;
 }
 

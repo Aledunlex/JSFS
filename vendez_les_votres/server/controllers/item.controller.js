@@ -1,12 +1,10 @@
-
-/* retrieve the model : necessary to interact with the database */
 const Items = require('../models/item.model').model;
 const Users = require('../models/user.model').model;
 
 const listMyItems =  async (req, res) => {
       const user = await Users.findById(req.userId);
       const allItems = await Items.find( {soldBy:user._id} );
-      res.render('allitems',                 // then use the result of the query to render the view in 'allitems.pug'
+      res.render('allitems',
                  {
                    title : "Vos annonces",
                    items : allItems,
@@ -19,7 +17,7 @@ const listMyItems =  async (req, res) => {
 const listOtherItems =  async (req, res) => {
   const user = await Users.findById( req.userId );
   const allItems = await Items.find( {soldBy: {$ne: user._id} } );
-  res.render('allitems',                 // then use the result of the query to render the view in 'allitems.pug'
+  res.render('allitems',
              {
                title : "Liste d'objets en vente",
                items : allItems,
@@ -41,11 +39,7 @@ const oneItem =
               }) ;
   }
 
-/* controller for /details/:itemId :  find items with _id= :itemId using findById()
-(quasi) équivalent à
-           Items.findOne({ _id : req.params.itemId })
-           Items.findOne().where('_id').equals( req.params.itemId )
-*/
+/* controller for /details/:itemId :  find items with _id= :itemId using findById() */
 const details =
   async (req, res) => {
     const foundItem = await Items.findById( req.params.itemId );
@@ -74,7 +68,7 @@ const buyItem =
                                   { new : true });
         await Items.deleteOne( foundItem );
         console.log(`--> item ${foundItem.title} sold by ${seller.login} to ${buyer.login}`);
-        res.status(301).redirect('/items');
+        res.status(200).redirect('/items');
       }
       else
         res.status(401);
@@ -87,8 +81,7 @@ const buyItem =
 /* controller for POST /create : execute the create operation in the db and return created item of successfull*/
 const createItem =
  async (req, res, _) => {
-   //const newItem = { title : req.body.title, author : req.body.author, year : req.body.year, cover : req.body.cover };
-   const newItemData = { ...req.body };    // extract object from body using '...' operator and pattern matching
+   const newItemData = { ...req.body };
    try {
      const createdItem = await Items.create(newItemData);
      res.status(201).json(createdItem);
@@ -109,7 +102,7 @@ const createItem =
         if(item.soldBy === req.userId) {
           await Items.deleteOne( {_id : req.params.itemId} );
           console.log(`--> item ${req.params.itemId} deleted`);
-          res.status(301).redirect('/items/myitems');
+          res.status(201).redirect('/items/myitems');
         }
         else
           res.status(401).redirect('/items/myitems');
