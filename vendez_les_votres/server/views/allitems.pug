@@ -17,7 +17,7 @@ block content
           +createImage(`${item.image}`)
         td.title
           a(href=`/items/details/${item._id}`)= item.title
-        td.price= `${item.price}€`
+        td.price= `${item.price} €`
         if myItems
           td.delete
             a(href='/items/delete/'+item._id) X

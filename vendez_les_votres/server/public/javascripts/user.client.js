@@ -28,7 +28,6 @@ const getUser = async () => {
 
 // appelée par le bouton update dans user.pug
 const update =  async () => {
-  console.log("appel d'update dans user.client");
   const userData = { login : userloginInput.value };
   const body = JSON.stringify(userData);
   const requestOptions = {

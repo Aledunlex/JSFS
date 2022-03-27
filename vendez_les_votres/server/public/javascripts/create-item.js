@@ -9,22 +9,19 @@ const askForItemCreation =
       const userResponse = await fetch('/user/me', { method :'GET' });
       if (userResponse.ok) {
         const user = await userResponse.json();
-        // retrieve data about item to create from the input fields
         const newItem = {
                           title : title.value,
                           soldBy : user._id,
                           price : price.value,
+                          image : image.value
                           };
         
-        // body is built from created item
         const bodyContent = JSON.stringify(newItem);
-        // options for a POST method that conains json
         const requestOptions = {
                                   method :'POST',
                                   headers : { "Content-Type": "application/json" },
                                   body : bodyContent
                                 };
-        // send the request to the server to create the entry corresponding to item
         const itemResponse = await fetch('/items/create', requestOptions);
         if (itemResponse.ok) {
           const item = await itemResponse.json();
@@ -41,7 +38,7 @@ const askForItemCreation =
       clearInputs();
     }
     else {
-      result.textContent = `error : Le prix ne peut pas être une valeur négative...`;
+      result.textContent = `Le prix ne peut pas être une valeur négative...`;
     }
   }
 
@@ -49,4 +46,5 @@ const askForItemCreation =
   const clearInputs = () => {
     title.value = "";
     price.value = "";
+    image.value = "";
   }

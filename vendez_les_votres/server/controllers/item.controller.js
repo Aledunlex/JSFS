@@ -58,7 +58,6 @@ const buyItem =
       const buyer = await Users.findById( req.userId );
       const seller = await Users.findById( foundItem.soldBy );
       const itprice = foundItem.price;
-      console.log(`--> AVANT ACHETEUR ${buyer.money}\n, VENDEUR ${seller.money}`);
       if(itprice <= buyer.money) {
         await Users.findByIdAndUpdate(buyer.id,
                                   { money: buyer.money - itprice },

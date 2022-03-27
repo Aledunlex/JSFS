@@ -41,7 +41,6 @@ const moveItemLineUp = (itemID) => {
     const itemLine = cells.find(line => line.getAttribute('data-id') === itemID);
     const innerCells = itemLine.children;
     itemLine.remove();
-    console.log(itemLine.children[1], itemLine.children[2]);
     lastBought.innerHTML = `Dernier achat : ${innerCells[1].textContent} à ${innerCells[2].textContent}.`;
     if (cells.length == 1) table.remove();
 }

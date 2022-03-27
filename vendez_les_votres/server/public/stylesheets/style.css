@@ -17,7 +17,10 @@ div label {
   padding : 7px;
 }
 input {
-  text-align :center;
+  text-align : center;
+}
+#image {
+  font-style : italic;
 }
 
 button {
