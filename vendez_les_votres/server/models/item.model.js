@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const DEFAULT_IMAGE = '/images/noimage.jpg';
 
 /*
- * setter for cover field in itemSchema, used to set a default value to image field if image is not defined
+ * setter for image field in itemSchema, used to set a default value to image field if image is not defined
  * @param image (string) the provided image field
  * @return (string) the image value
 */
@@ -25,9 +25,8 @@ const itemSchema = new mongoose.Schema({
             },
     image : {
               type : String,
-              get : setDefaultImage //était mis à set plutôt que get
-            },
-    description : String
+              get : setDefaultImage
+            }
 });
 
 module.exports = itemSchema;

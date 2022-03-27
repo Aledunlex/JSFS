@@ -2,5 +2,5 @@ extends layout
 
 block content
   h1= title
+  +createImage(`${images/favicon.ico}`)
   p Bienvenue sur #{title} !
-  //- On pourrait afficher le nom de l'utilisateur connecté une fois qu'on saura comment on fait

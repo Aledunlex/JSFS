@@ -10,7 +10,6 @@ const initDisplayAndSetupBuyButtonsListeners = () => {
 window.addEventListener('DOMContentLoaded', initDisplayAndSetupBuyButtonsListeners);
 
 const updateUserDisplay = async () => {
-  console.log("update display appelé");
   const requestOptions = {
                             method :'GET',
                           };
@@ -37,13 +36,13 @@ const askToBuyItem = async (event) => {
 }
 
 const moveItemLineUp = (itemID) => {
-    console.log("getItem appelé");
-    const table = document.getElementById("booklist");
+    const table = document.getElementById("itemslist");
     const cells = Array.from(table.getElementsByTagName("tr"));
     const itemLine = cells.find(line => line.getAttribute('data-id') === itemID);
+    const innerCells = itemLine.children;
     itemLine.remove();
-    lastBought.innerHTML = "Dernier achat :\n"+itemLine.firstElementChild.innerText;
+    console.log(itemLine.children[1], itemLine.children[2]);
+    lastBought.innerHTML = `Dernier achat : ${innerCells[1].textContent} à ${innerCells[2].textContent}.`;
     if (cells.length == 1) table.remove();
-    return itemLine;
 }
 

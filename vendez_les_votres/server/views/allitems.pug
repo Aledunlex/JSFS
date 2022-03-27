@@ -8,20 +8,23 @@ append headblock
 block content
   h1= title
   unless myItems
+    #loginDisplay
     #lastBought
-  table#booklist
+  table#itemslist
     each item in items
-      tr.book(data-id= item.id)
-        td.title(data-id= item._id)
+      tr.item(data-id= item.id)
+        td.image
+          +createImage(`${item.image}`)
+        td.title
           a(href=`/items/details/${item._id}`)= item.title
-        td= `${item.price}€`
+        td.price= `${item.price}€`
         if myItems
           td.delete
             a(href='/items/delete/'+item._id) X
         else 
-          td.delete
+          td.button
             if item.price <= user.money
               button(class= 'buybutton', data-id= item.id) Acheter
     else
-      td Aucun objet actuellement en vente
+      td.delete Aucun objet actuellement en vente
   

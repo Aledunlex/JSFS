@@ -1,7 +1,7 @@
 doctype html
 
 mixin createImage(imgSrc)
-  .cover
+  .image
     img(src=imgSrc)
 
 html
@@ -24,7 +24,7 @@ html
           a(href="/items")= "Parcourir les annonces"
         li(class=(title === "Création d'une annonce" ? "active" : undefined))
           a(href="/items/create")= "Créer une annonce"
-      #loginDisplay
+      
 
   body
     block content

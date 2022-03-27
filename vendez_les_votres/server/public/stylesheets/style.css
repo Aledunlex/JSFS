@@ -2,7 +2,7 @@ body {
   padding: 15px;
   display: block;
   margin: 10px;
-  font-family: "Segoe UI",Arial,sans-serif;
+  font-family: "Market Sans",Arial,sans-serif;
   box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);
 }
 
@@ -43,43 +43,59 @@ a {
 }
 
 
-#booklist {
+
+#itemslist {
   border : solid 2px #404040;
   padding : 4px;
   margin: 10px auto;
 }
-tr.book {
+tr.item {
   border : solid thin #404040;
   background-color : #E0E0E0;
 }
-td.author, td.title {
+
+table {
+  table-layout: auto;
+  width: 100%;
+}
+
+td.title a {
+  min-width: 100px;
   padding : 2px 5px;
+  font-weight : bold;
+  text-decoration : none;
+  color : black;
+  font-size : 24px;
 }
-
-td.author {
-  color  : green;
+td.price {
+  width: 105px;
+  text-align: center;
 }
-
+td.delete {
+  text-align: center;
+  font-size : 20px;
+}
 td.delete a {
   color : red;
   font-weight : bold;
   text-decoration : none;
+  width: 105px;
+}
+td.button {
+  width: 105px;
 }
 
-
-.cover {
-  width : 200px;
+.image {
+  width : 100px;
   padding  : 5px;
   background-color: rgba(100,155,100,0.5);
 }
-
-.cover img {
+.image img {
   width : 100%;
 }
 
 code {
   font-size : larger;
-
 }
 
 
@@ -101,21 +117,6 @@ input {
   font-size : larger;
   font-style : italic;
 }
-
-
-#details {
-  position : absolute;
-  left : 400px;
-  top : 250px;
-  width : 200px;
-  border : solid thin #CCC;
-  background-color : rgba(20,200,20,0.5);
-  padding : 5px;
-}
-#details dt {
-  font-weight : bold;
-}
-
 
 #NB {
   margin-top : 20px;

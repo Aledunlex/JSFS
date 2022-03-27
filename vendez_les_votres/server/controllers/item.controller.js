@@ -71,7 +71,7 @@ const buyItem =
         res.status(200).redirect('/items');
       }
       else
-        res.status(401);
+        res.status(401).redirect('/items');
     }
     catch(error) {
       res.status(400).json(error);
