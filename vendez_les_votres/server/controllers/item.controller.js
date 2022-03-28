@@ -70,7 +70,7 @@ const buyItem =
         res.status(200).redirect(303, '/items');
       }
       else
-        res.status(401).redirect('/items');
+        res.status(401).redirect(303, '/items');
     }
     catch(error) {
       res.status(400).json(error);
@@ -96,7 +96,6 @@ const createItem =
   const deleteItem =
     async (req,res) => {
       try {
-        const user = await Users.findById( req.userId );
         const item = await Items.findById( req.params.itemId );
         if(item.soldBy === req.userId) {
           await Items.deleteOne( {_id : req.params.itemId} );

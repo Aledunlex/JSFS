@@ -26,7 +26,8 @@ const askToBuyItem = async (event) => {
     const clickedButton = event.target;
     const correspondingItemID = clickedButton.getAttribute('data-id');
     const buyResponse = await fetch(`/items/${correspondingItemID}`, { method :'PUT',
-                                                                          headers : { "Content-Type": "application/json" } });
+                                                                       headers : { "Content-Type": "application/json" } 
+                                                                     });
     if (buyResponse.ok) {
       moveItemLineUp(correspondingItemID);
       updateUserDisplay();
