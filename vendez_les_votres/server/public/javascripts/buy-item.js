@@ -25,11 +25,13 @@ const updateUserDisplay = async () => {
 const askToBuyItem = async (event) => {
     const clickedButton = event.target;
     const correspondingItemID = clickedButton.getAttribute('data-id');
-    const buyResponse = await fetch(`/items/buy/${correspondingItemID}`, { method :'GET' });
+    const buyResponse = await fetch(`/items/${correspondingItemID}`, { method :'PUT',
+                                                                          headers : { "Content-Type": "application/json" } });
     if (buyResponse.ok) {
       moveItemLineUp(correspondingItemID);
       updateUserDisplay();
     } else {
+      console.log("buyresponse",buyResponse);
       const error = await buyResponse.json();
       lastBought.textContent = `error : ${error.message}`;
     }

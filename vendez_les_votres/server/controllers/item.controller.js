@@ -67,7 +67,7 @@ const buyItem =
                                   { new : true });
         await Items.deleteOne( foundItem );
         console.log(`--> item ${foundItem.title} sold by ${seller.login} to ${buyer.login}`);
-        res.status(200).redirect('/items');
+        res.status(200).redirect(303, '/items');
       }
       else
         res.status(401).redirect('/items');

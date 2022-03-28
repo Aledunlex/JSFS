@@ -13,7 +13,7 @@ router.get('/myitems', authMiddleware.validToken, itemsController.listMyItems);
 router.get('/one', authMiddleware.validToken, itemsController.oneItem);
 router.get('/details/:itemId', authMiddleware.validToken, itemsController.details );
 
-router.get('/buy/:itemId', authMiddleware.validToken, itemsController.buyItem);
+router.put('/:itemId', authMiddleware.validToken, itemsController.buyItem);
 
 
 // path '/items/create' can be accessed using GET (for view) or POST (for item creation)

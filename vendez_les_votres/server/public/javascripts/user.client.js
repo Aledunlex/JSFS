@@ -47,10 +47,7 @@ const update =  async () => {
 }
 
 const logout = async () => {
-  const requestOptions = {
-                         method :'GET',
-                       };
-  const response = await fetch(`/access/logout`, requestOptions);
+  const response = await fetch(`/access/logout`, { method :'GET' });
   if (response.ok) {
     window.location.href= '/user';
   }
