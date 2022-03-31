@@ -10,20 +10,21 @@ html
       title= title
       link(rel='icon', href='/images/favicon.ico')
       link(rel='stylesheet', href='/stylesheets/style.css')
+      script(src="/javascripts/init.layout.js")
       
   block nav
     - var active
       ul
         li(class=(title === "Vendez les vôtres" ? "active" : undefined))
-          a(href="/")= "Accueil"
+          p(class='nav-p' id='index') Accueil
         li(class=(title === "Gestion du compte" ? "active" : undefined))
-          a(href="/user")= "Gestion du compte"
+          p(class='nav-p' id='user') Gestion du compte
         li(class=(title === "Vos annonces" ? "active" : undefined))
-          a(href="/items/myitems")= "Mes annonces"
+          p(class='nav-p' id='myitems') Mes annonces
         li(class=(title === "Liste d'objets en vente" ? "active" : undefined))
-          a(href="/items")= "Parcourir les annonces"
+          p(class='nav-p' id='oth-items') Parcourir les annonces
         li(class=(title === "Création d'une annonce" ? "active" : undefined))
-          a(href="/items/create")= "Créer une annonce"
+          p(class='nav-p' id='create-item') Créer une annonce
       
 
   body
