@@ -16,15 +16,17 @@ html
     - var active
       ul
         li(class=(title === "Vendez les vôtres" ? "active" : undefined))
-          p(class='nav-p' id='index') Accueil
+          a(class='nav-p' id='index' href='/') Accueil
         li(class=(title === "Gestion du compte" ? "active" : undefined))
-          p(class='nav-p' id='user') Gestion du compte
+          a(class='nav-p' id='user' href='/user') Gestion du compte
+        li(class=(title === "Items REST API TODO" ? "active" : undefined))
+          a(class='nav-p' id='items-rest-api' href='/itemsSPA') Annonces SPA
         li(class=(title === "Vos annonces" ? "active" : undefined))
-          p(class='nav-p' id='myitems') Mes annonces
+          a(class='nav-p' id='myitems' href='/items/myitems') Mes annonces
         li(class=(title === "Liste d'objets en vente" ? "active" : undefined))
-          p(class='nav-p' id='oth-items') Parcourir les annonces
+          a(class='nav-p' id='oth-items' href='/items') Parcourir les annonces
         li(class=(title === "Création d'une annonce" ? "active" : undefined))
-          p(class='nav-p' id='create-item') Créer une annonce
+          a(class='nav-p' id='create-item' href='/items/create') Créer une annonce
       
 
   body

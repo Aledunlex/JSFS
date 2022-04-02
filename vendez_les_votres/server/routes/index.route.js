@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET home page. */
-// 'render' utilise le moteur de vue (donc pour nous, 'pug')
-// pour construire les pages fournies en réponse
+
 const indexController = require('../controllers/index.controller');
 
+const authMiddleware = require('../middlewares/authentification.middleware');
+
+/* GET home page. */
 router.get('/', indexController.home);
+
+/* GET items page. */
+router.get('/itemsSPA', authMiddleware.validToken, indexController.itemsSPA );
 
 module.exports = router;

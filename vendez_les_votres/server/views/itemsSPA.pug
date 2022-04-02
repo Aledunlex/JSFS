@@ -1,0 +1,18 @@
+extends layout
+
+append headblock
+  script(src="/javascripts/item-handler-rest.js")
+
+block content
+  h1= title
+  #loginDisplay
+  ul
+    #answer
+      #NB
+      #JSONanswer
+
+  button#createButton Créer une annonce
+  block createBlock
+
+  #lastBought
+  table#itemslist

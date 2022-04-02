@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index.route');
 const accessRouter = require('./routes/access.route');
 const userRouter = require('./routes/user.route');
 const itemRouter = require('./routes/item.route');
+const itemRestRouter = require('./routes/itemrest.route');
 
 // middlewares
 const errorMiddleware = require('./middlewares/error.middleware');
@@ -34,6 +35,7 @@ app.use('/', indexRouter);
 app.use('/access', accessRouter);
 app.use('/user', userRouter);
 app.use('/items', itemRouter);
+app.use('/itemsrest', itemRestRouter);
 
 app.use(errorMiddleware);
 

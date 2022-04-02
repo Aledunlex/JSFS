@@ -9,5 +9,12 @@ const initButtonLink = async (event) => {
     const correspondingMenuButton = clickedButton.getAttribute('id');
 
     console.log(correspondingMenuButton);
-    
+    // const pageContentResponse = await fetch(`/${correspondingMenuButton}`, { method :'GET',
+    //                                                                          headers : { "Content-Type": "application/json" } 
+    // });
+    // if (pageContentResponse.ok) {
+    //     console.log("pageContentResponse",pageContentResponse);
+    // } else {
+    //     console.log("pageContentResponse",pageContentResponse);
+    // }
 }
