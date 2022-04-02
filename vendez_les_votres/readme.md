@@ -4,13 +4,13 @@
 
 ## Commandes
 
-Depuis le dossier `server\database`,  tapez dans votre commande :
+Depuis le dossier `\vendez_les_votres\database`,  tapez dans votre commande :
 
 ```bash
 mongod -dbpath .
 ```
 
-Puis depuis le dossier `\server`, entrez :
+Puis depuis le dossier `\vendez_les_votres`, entrez :
 
 ```bash
 npm run start
