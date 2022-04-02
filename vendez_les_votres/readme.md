@@ -4,48 +4,36 @@
 
 ## Commandes
 
-`mongod -dbpath .`
+Depuis le dossier `server\database`,  tapez dans votre commande :
 
-Depuis le dossier `server\database`, puis
+```bash
+mongod -dbpath .
+```
 
-`npm run start`
+Puis depuis le dossier `\server`, entrez :
 
-depuis le dossier `\server`
+```bash
+npm run start
+```
 
-puis `localhost:3000` dans firefox
+Enfin allez à `http://localhost:3000` dans votre navigateur (de préférence *Firefox*).
 
-### TODO
+## Etat du projet
 
-* pouvoir acheter, mettre à jour en direct l'affichage de mon argent restant + supprimer l'annonce de l'objet acheté en direct
-    * sur chaque page itemdetail :
-        * déterminer si l'item nous appartient via le userId; si non, afficher un bouton "acheter"; il faut rendre l'action impossible dans ce cas même en tapant manuellement le lien
-        * afficher le login de l'utilisateur connecté + la somme d'argent qu'il a avant achat
-        * une fois acheté, retour sur la page des annonces, et cette annonce doit avoir été supprimée + l'argent restant mise à jour
+* **Nous avons réalisé le projet en entier**.
 
-* gérer les cas d'erreur :
-    * acheter un objet qui n'existe pas (?)
-    * acheter un objet trop cher
-    * probablement d'autres auxquels j'ai pas pensé...
+* L'accueil et la partie authentification ne sont pas en *single page application*. Il est indispensable de se connecter pour accéder à la partie *achat/vente* et y effectuer des opérations (achat, vente, suppression).
 
-* Toute la Q6 qui consiste à créer l'app cliente, en implémentant avec React de préférence
+* La partie *achat/vente* est faite selon la norme *rest API*, et est en *single page application*. Vous y accéderez depuis l'onglet **Annonces** de la barre de navigation.
 
-* affichage du dernier objet qu'on a acheté (sans le stocker en base -> comment? cookies?)
+* La création d'objet se fait via un formulaire, dans un menu dépliant caché par défaut, sur lequel il faut cliquer pour le déplier. L'implémentation du menu dépliant est fortement inspirée d'une ressource en ligne.
 
-* (option) ajouter une image à son annonce et peut être la rendre visible sur la liste des items en vente
+* Il n'est ***pas possible*** de **supprimer l'annonce d'un autre utilisateur**, ni d'**acheter un objet que l'on a mis en vente**, ni d'**acheter un objet trop cher**, ni de **mettre en vente un objet dont le prix est négatif**.
 
-* (option) faire un truc un peu beau...
+* **Bonus:** Il est ***possible***, à la création d'une annonce, d'**indiquer un lien vers une image** qui consistera en l'image de l'objet dans la liste des annonces. 
 
-### DONE
+* Nous n'avons pas réalisé d'autres options bonus. Il est possible de modifier son *login* sur la page **Gestion de compte**, mais cette fonctionnalité était déjà fournie dans l'exemple du cours...
 
-* Création d'utilisateur, connexion, déconnexion
+* La création de la page *achat/vente* n'est pas implémentée en *React*.
 
-* Création d'objet lié à celui qui l'a créé, suppression de l'annonce par celui qui l'a créé
-
-* Une barre de navigation...
-
-* Les anciennes pages .html ont été transformées en .pug avec plus ou moins de précision...
-
-* Il est impossible de supprimer ou modifier l'annonce de qqu'un d'autre (du moins pas en passant par une page avec formulaire)
-
-* Affichage distinct entre "mes annonces" et celles des autres
-
+* Le style CSS est fortement inspiré des exemples fournis dans le cours ainsi que de ressources en ligne.
