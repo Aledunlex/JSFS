@@ -16,9 +16,11 @@ div {
 div label {
   padding : 7px;
 }
+
 input {
   text-align : center;
 }
+
 #image {
   font-style : italic;
 }
@@ -33,10 +35,12 @@ button {
 #userdata {
   background-color : #DDD;
 }
+
 #userdata div{
   text-align : right;
   margin : 2px;
 }
+
 #controls {
   margin-top : 10px;
 }
@@ -44,8 +48,6 @@ button {
 a {
   color: #00B7FF;
 }
-
-
 
 #itemslist {
   border : solid 2px #404040;
@@ -101,38 +103,25 @@ code {
   font-size : larger;
 }
 
+#lastBought {
+  margin-top : 10px;
+  background-color : rgba(222, 243, 32, 0.5);
+  padding : 3px;
+}
+
 
 input {
   font-size : 24px;
   margin : 0px 2px;
 }
 
-#result, #answer {
+#answer {
   margin-top : 10px;
   background-color : rgba(200,20,20,0.5);
   padding : 3px;
 }
 
-
-#JSONanswer  {
-  padding : 10px;
-  margin  :10px;
-  font-size : larger;
-  font-style : italic;
-}
-
-#NB {
-  margin-top : 20px;
-  background-color : rgba(200,200,200,1);
-  padding : 6px;
-  margin : 10px 30px;
-  font-style : italic;
-}
-
-li>strong::first-letter {
-  color : red;
-}
-
+/* navigation bar and collapsible creation form very much inspired by w3school tutorials */
 ul {
   list-style-type: none;
   margin: 0;
@@ -168,4 +157,27 @@ li a:hover {
   text-decoration-color:rgb(255, 255, 255);
   text-decoration-thickness: 2px;
   text-underline-position: under;
+}
+
+.collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active-collaps, .collapsible:hover {
+  background-color: #ccc;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
 }

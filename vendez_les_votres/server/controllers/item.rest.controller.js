@@ -4,33 +4,27 @@ const Users = require('../models/user.model').model;
 // define a REST like API available for route /items
 
 // controller for GET /
-const allItems =
-  async (req,res) => {
-        console.log(req.userId);
-        const allItems = await Items.find();
-        res.status(200).json(allItems);
-    }
+const allItems = async (_,res) => {
+    const allItems = await Items.find();
+    res.status(200).json(allItems);
+  }
 
 
 // controller for POST /
-const createItem =
-  async (req,res) => {
-   const newItemData = { ...req.body };
-   try {
-     console.log(req.userId);
-     newItemData.soldBy = req.userId;
-     console.log(newItemData);
-     const createdItem = await Items.create(newItemData);
-     res.status(201).json(createdItem);
-   }
-   catch(error) {
-     res.status(400).json(error);
-   }
+const createItem = async (req,res) => {
+    const newItemData = { ...req.body };
+    try {
+      newItemData.soldBy = req.userId;
+      const createdItem = await Items.create(newItemData);
+      res.status(201).json(createdItem);
+    }
+    catch(error) {
+      res.status(400).json(error);
+    }
   }
 
 // controller for PUT /:itemId
-const buyItem =
-  async (req, res) => {
+const buyItem = async (req, res) => {
     const foundItem = await Items.findById( req.params.itemId );
     const buyer = await Users.findById( req.userId );
     const seller = await Users.findById( foundItem.soldBy );
@@ -49,11 +43,21 @@ const buyItem =
   }
 
 // controller for DELETE /:itemId
-const deleteItem =
-  async (req,res) => {
-      await Items.findByIdAndRemove( req.params.itemId );
-      res.status(200).json(null);
-   }
+const deleteItem = async (req,res) => {
+    try {
+      const item = await Items.findById( req.params.itemId );
+      if(item.soldBy === req.userId) {
+        await Items.deleteOne( {_id : req.params.itemId} );
+        console.log(`--> item ${req.params.itemId} deleted`);
+        res.status(200).json(null);
+      }
+      else
+        res.status(401).json(null);
+    }
+    catch(error) {
+      res.status(400).json(error);
+    }
+  }
 
 module.exports.allItems = allItems;
 module.exports.createItem = createItem;

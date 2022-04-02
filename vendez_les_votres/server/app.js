@@ -4,19 +4,18 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-
+// connection to data base
+const dbConnection = require('./controllers/db.controller.js');
 
 // routers
 const indexRouter = require('./routes/index.route');
 const accessRouter = require('./routes/access.route');
 const userRouter = require('./routes/user.route');
-const itemRouter = require('./routes/item.route');
 const itemRestRouter = require('./routes/itemrest.route');
 
 // middlewares
 const errorMiddleware = require('./middlewares/error.middleware');
-// connection to data base
-const dbConnection = require('./controllers/db.controller.js');
+
 // create app
 const app = express();
 
@@ -34,7 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/access', accessRouter);
 app.use('/user', userRouter);
-app.use('/items', itemRouter);
 app.use('/itemsrest', itemRestRouter);
 
 app.use(errorMiddleware);

@@ -1,18 +1,25 @@
 extends layout
 
 append headblock
-  script(src="/javascripts/item-handler-rest.js")
+    script(src="/javascripts/item-handler-rest.js")
 
 block content
-  h1= title
-  #loginDisplay
-  ul
-    #answer
-      #NB
-      #JSONanswer
+    h1= title
 
-  button#createButton Créer une annonce
-  block createBlock
+    #loginDisplay
 
-  #lastBought
-  table#itemslist
+    button#createForm.collapsible Formulaire de création d'annonce
+    div.content
+        - var theitem
+        - if (item) { theitem = item } else { theitem =  { title : '', soldBy : '', price : ''} }
+        div(id='userdata')
+            input#title(placeholder="Titre de l'annonce", value= theitem.title)
+            input#price(placeholder="Prix de vente", value= theitem.price)
+            input#image(placeholder="Lien vers l'image", value= theitem.image)
+        div(id='controls')
+            button#createButton Publier!
+        #answer
+
+    
+    #lastBought
+    table#itemslist

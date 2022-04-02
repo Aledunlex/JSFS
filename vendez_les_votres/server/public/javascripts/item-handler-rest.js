@@ -1,12 +1,27 @@
-const DELAY_BEFORE_REFRESHING = 2000;
+let clickedItem;
+let loginDisplay;
 
-const setupListeners =
-  () => {
+const setupListeners = () => {
+    loginDisplay = document.getElementById('loginDisplay');
+    updateUserDisplay();
+    createForm = document.getElementById('createForm');
+    createForm.addEventListener("click", initCreateFormCollapsible );
     fillTable();
     createButton.addEventListener('click', createItem );
-  }
+}
 
 window.addEventListener('DOMContentLoaded', setupListeners);
+
+const initCreateFormCollapsible = (event) => {
+    const block = event.target;
+    block.classList.toggle("active-collaps");
+    const content = block.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+}
 
 // returns currently connected user's id
 const getUser = async () => {
@@ -17,14 +32,21 @@ const getUser = async () => {
     }
 }
 
-// fetch GET all items
+// initializes and updates user's name and owned money when relevant
+const updateUserDisplay = async () => {
+    const user = await getUser();
+    let displayString;
+    if (user) {
+        displayString = `<strong>${user.login}</strong>.\nVous avez <strong>${user.money}€</strong>`;
+        loginDisplay.innerHTML = `Bienvenue, ${displayString}.`;
+    }
+}
+
+// fetch GET all items, builds other user's entries first, then current user's entries
 const fillTable = async () => {
   const itemsTable = document.getElementById('itemslist');
   itemsTable.textContent = '';
-  const requestOptions = {
-                           method :'GET'
-                         };
-  const allItemsResponse = await fetch('/itemsrest/', requestOptions);
+  const allItemsResponse = await fetch('/itemsrest/', { method :'GET' });
   if (allItemsResponse.ok) {
     let allitems = await allItemsResponse.json();
     if (allitems.length == 0) {
@@ -54,61 +76,57 @@ const fillTable = async () => {
   }
 }
 
-// fetch PUT to update one item with given item id
+// fetch PUT to buy one item with given item id, updates relevant users (credits seller, debits buyer)
 const buyItem = async (itemId) => {
-      const requestOptions = {
-                               method :'PUT',
-                               headers : { "Content-Type": "application/json" }
-                              };
+      const requestOptions = { method :'PUT',
+                               headers : { "Content-Type": "application/json" } };
       const response = await fetch(`/itemsrest/${itemId}`, requestOptions);
       const updatedInfo = await response.json();
       moveItemLineUp(itemId);
-      JSONanswer.textContent = JSON.stringify(updatedInfo);
-      window.setTimeout( updateTable, DELAY_BEFORE_REFRESHING);
-    }
+      updateTable();
+}
 
 // fetch DELETE to delete one item with given item id
 const deleteItem = async (itemId, button) => {
-      const requestOptions = {
-                               method :'DELETE'
-                             };
-      const response = await fetch(`/itemsrest/${itemId}`, requestOptions);
+      const response = await fetch(`/itemsrest/${itemId}`, { method :'DELETE' });
       const received = await response.json();
-      JSONanswer.textContent = JSON.stringify(received);
-      button.parentNode.replaceChild( createTmpSpan() , button);
-      window.setTimeout( updateTable, DELAY_BEFORE_REFRESHING);
-    }
+      updateTable();
+}
 
-// fetch POST to create one item
+// fetch POST to create one item if price isn't a negative value
 const createItem = async () => {
-      const newItemData = { title : 'New Title', soldBy : '', price : 2018, image : ''  };
-      const body = JSON.stringify(newItemData);
-      let requestOptions = {
-                             method :'POST',
-                             headers : { "Content-Type": "application/json" },
-                             body : body
-                           };
-      const response = await fetch(`/itemsrest/`, requestOptions);
-      const createdItem = await response.json();
-      JSONanswer.textContent = JSON.stringify(createdItem);
-      window.setTimeout( updateTable, DELAY_BEFORE_REFRESHING);
+    if (price.value >= 0) {
+      const user = await getUser();
+      if (user) {
+        const newItem = { title : title.value, soldBy : '', price : price.value, image : image.value  };
+        const body = JSON.stringify(newItem);
+        const requestOptions = {
+                                  method :'POST',
+                                  headers : { "Content-Type": "application/json" },
+                                  body : body
+                                };
+        const itemResponse = await fetch('/itemsrest', requestOptions);
+        if (itemResponse.ok) {
+          const item = await itemResponse.json();
+          answer.textContent = `Votre annonce pour "${item.title}" a été créée!`;
+        }
+        else {
+          const error = await itemResponse.json();
+          answer.textContent = `error : ${error.message}`;
+        }
+      clearInputs();
+      updateTable();
+      }
+    } else {
+        answer.textContent = `Le prix ne peut pas être une valeur négative...`;
     }
-
-
+}
 
 const updateTable = () => {
-  JSONanswer.textContent = '';
   fillTable();
 }
 
 // utility functions
-const createTmpSpan = () => {
-  const span = document.createElement('span');
-  span.className = 'deleted';
-  span.textContent = 'deleted';
-  return span;
-}
-
 const buildItemElement =  (item, user) => {
   const itemElement = document.createElement('tr');
   itemElement.className = 'item';
@@ -131,7 +149,6 @@ const buildItemElement =  (item, user) => {
         itemElement.appendChild(buildTDForHTMLElement(updateButton, 'button'));
     }
   }
-
   return itemElement;
 }
 
@@ -147,7 +164,7 @@ const buildTDForHTMLElement = (content, className) => {
     TDelement.className = className;
     TDelement.appendChild(content);
     return TDelement;
-  }
+}
 
 const buildButton = (label, className) => {
   const button = document.createElement('button');
@@ -159,7 +176,6 @@ const buildButton = (label, className) => {
 const moveItemLineUp = (itemID) => {
     const table = document.getElementById("itemslist");
     const cells = Array.from(table.getElementsByTagName("tr"));
-    console.log(cells, itemID);
     const itemLine = cells.find(line => line.getAttribute('data-id') === itemID);
     const innerCells = itemLine.children;
     itemLine.remove();
@@ -173,3 +189,8 @@ const createImage = (item, itemElement) => {
     itemElement.appendChild(buildTDForHTMLElement(itemImage, 'image'));
 }
 
+const clearInputs = () => {
+    title.value = "";
+    price.value = "";
+    image.value = "";
+}
