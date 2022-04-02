@@ -1,4 +1,4 @@
-#Projet  JSFS
+# Projet JSFS - Vendez Les Votres, *single page application*
 
 # Binôme Ledun Skoczylas
 
