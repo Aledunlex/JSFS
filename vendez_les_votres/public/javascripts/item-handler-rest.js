@@ -1,7 +1,7 @@
 let clickedItem;
 let loginDisplay;
 
-const setupListeners = () => {
+const setupListenersAndInitPage = () => {
     loginDisplay = document.getElementById('loginDisplay');
     updateUserDisplay();
     createForm = document.getElementById('createForm');
@@ -10,7 +10,7 @@ const setupListeners = () => {
     createButton.addEventListener('click', createItem );
 }
 
-window.addEventListener('DOMContentLoaded', setupListeners);
+window.addEventListener('DOMContentLoaded', setupListenersAndInitPage);
 
 const initCreateFormCollapsible = (event) => {
     const block = event.target;
@@ -67,7 +67,7 @@ const fillTable = async () => {
                         itemsTable.appendChild(itemElement);
                     });
         } else {
-            console.log(`error : no user connected`);
+          loginDisplay.textContent(`Vous devez être connecté pour accéder aux annonces!`);
         }
     }
   } else {
@@ -83,6 +83,7 @@ const buyItem = async (itemId) => {
       const response = await fetch(`/itemsrest/${itemId}`, requestOptions);
       const updatedInfo = await response.json();
       moveItemLineUp(itemId);
+      updateUserDisplay();
       updateTable();
 }
 
@@ -178,9 +179,7 @@ const moveItemLineUp = (itemID) => {
     const cells = Array.from(table.getElementsByTagName("tr"));
     const itemLine = cells.find(line => line.getAttribute('data-id') === itemID);
     const innerCells = itemLine.children;
-    itemLine.remove();
     lastBought.innerHTML = `Dernier achat : ${innerCells[1].textContent} à ${innerCells[2].textContent}.`;
-    if (cells.length == 1) table.remove();
 }
 
 const createImage = (item, itemElement) => {

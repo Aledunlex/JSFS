@@ -10,7 +10,6 @@ html
       title= title
       link(rel='icon', href='/images/favicon.ico')
       link(rel='stylesheet', href='/stylesheets/style.css')
-      script(src="/javascripts/init.layout.js")
       
   block nav
     - var active
@@ -19,7 +18,7 @@ html
           a(class='nav-p' id='index' href='/') Accueil
         li(class=(title === "Gestion du compte" ? "active" : undefined))
           a(class='nav-p' id='user' href='/user') Gestion du compte
-        li(class=(title === "Vendez les vôtres" ? "active" : undefined))
+        li(class=(title === "Annonces" ? "active" : undefined))
           a(class='nav-p' id='itemsSPA' href='/itemsSPA') Annonces
       
 
