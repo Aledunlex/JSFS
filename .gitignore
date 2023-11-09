@@ -4,8 +4,6 @@ vendez_les_votres/database
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
-/PROJET_PONG/*/*/public
-
 ### Node ###
 # Logs
 logs

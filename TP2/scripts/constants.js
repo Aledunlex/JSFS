@@ -1,1 +1,0 @@
-export const NEW_NUMBER_STR = "new number";
